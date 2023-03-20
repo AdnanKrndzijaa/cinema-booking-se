@@ -1,4 +1,4 @@
-# cinema-reservation-se
+# cinema-booking-se
 
 ## Team Members
 #### 1. Adnan Brkić
