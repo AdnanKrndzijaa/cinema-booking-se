@@ -18,6 +18,7 @@ model User {
   hashedPassword String
   favouriteMovies String[] @db.ObjectId
   type String @default("User")
+
 }
 
 model VerificationToken {
@@ -27,6 +28,7 @@ model VerificationToken {
   expires DateTime
 
   @@unique([identifier,token])
+
 }
 
 model Movie {
