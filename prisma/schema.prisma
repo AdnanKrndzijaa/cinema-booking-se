@@ -18,7 +18,6 @@ model User {
   hashedPassword String
   favouriteMovies String[] @db.ObjectId
   type String @default("User")
-
 }
 
 model VerificationToken {
@@ -31,14 +30,48 @@ model VerificationToken {
 
 }
 
+
+
+
+
+
+
+
+
+
 model Movie {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String
   description String
   bannerUrl String
   thumbnailUrl String
-  genre String
+  genre String[]
   duration String
+  releaseYear DateTime
+
+  actors             Actor[] // Brad Pitt, Angelina Jolie
+  casts          Cast[] // Adnan Brkic, Adnan Krndzija
+}
+
+model Actor {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
+  lastName String
+  avatarUrl String
+
+  casts          Cast[] //
+  movie              Movie      @relation(fields: [movieId], references: [id])
+  movieId            String @db.ObjectId
+
 }
 
 
+model Cast {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  nameInMovie String
+
+  movie                 Movie     @relation(fields: [movieId], references: [id])
+  actor                 Actor     @relation(fields: [actorId], references: [id])
+  movieId               String @db.ObjectId
+  actorId               String @db.ObjectId
+}
