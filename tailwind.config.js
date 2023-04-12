@@ -8,13 +8,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#000000",
+        primary: "#1B181D",
+        primaryvariant1: "#3B383D",
         secondary: "#ffffff",
-        accent: "#ff00000",
+        accent: "#F97737",
+        text: "#A79DAE",
+        placeholder: "#8B898C",
+        white: "#ffffff",
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
-        inter: ["Inter", "sans-serif"],
+        opensans: ["Open Sans", "sans-serif"],
       },
     },
     screens: {
