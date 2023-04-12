@@ -1,57 +1,57 @@
-import NextAuth from "next-auth/next";
-import Credentials from "next-auth/providers/credentials";
-import prismadb from '@/lib/prismadb';
-import {compare} from 'bcrypt';
+import bcrypt from "bcrypt"
+import NextAuth, { AuthOptions } from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
+import GithubProvider from "next-auth/providers/github"
+import GoogleProvider from "next-auth/providers/google"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
 
-export default NextAuth({
-    providers: [
-        Credentials({
-            id: 'credentials',
-            name: "Credentials",
-            credentials: {
-                email: {
-                    label: 'Email',
-                    type: 'text',
-                },
-                password: {
-                    label: 'Password',
-                    type: 'password',
-                }
-            },
-            async authorize(credentials) {
-                if(!credentials?.email || !credentials?.password) {
-                    throw new Error("Email and password required");
-                }
+import prisma from "@/lib/prismadb"
 
-                const user = await prismadb.user.findUnique({
-                    where: {
-                        email:credentials.email
-                    }
-                });
+export const authOptions: AuthOptions = {
+  adapter: PrismaAdapter(prisma),
+  providers: [
+    CredentialsProvider({
+      name: 'credentials',
+      credentials: {
+        email: { label: 'email', type: 'text' },
+        password: { label: 'password', type: 'password' }
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error('Invalid credentials');
+        }
 
-                if(!user || !user.hashedPassword) {
-                    throw new Error('Email does not exist');
-                }
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email
+          }
+        });
 
-                const isCorrectPassword = await compare(credentials.password, user.hashedPassword);
+        if (!user || !user?.hashedPassword) {
+          throw new Error('User doesnt exist');
+        }
 
-                if(!isCorrectPassword) {
-                    throw new Error('Incorrect password');
-                }
+        const isCorrectPassword = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword
+        );
 
-                return user;
-            }
-        })
-    ],
-    pages: {
-        signIn: '/auth',
-    },
-    debug: process.env.NODE_ENV === 'development',
-    session: {
-        strategy: 'jwt',
-    },
-    jwt: {
-        secret: process.env.NEXTAUTH_JWT_SECRET,
-    },
-    secret: process.env.NEXTAUTH_SECRET
-});
+        if (!isCorrectPassword) {
+          throw new Error('Invalid password');
+        }
+
+        return user;
+      }
+    })
+  ],
+  pages: {
+    signIn: '/',
+  },
+  debug: process.env.NODE_ENV === 'development',
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+}
+
+export default NextAuth(authOptions);

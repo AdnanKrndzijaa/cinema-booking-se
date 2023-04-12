@@ -22,12 +22,11 @@ const Auth = () => {
                 redirect: false,
                 callbackUrl: '/'
             });
-
             router.push('/');
         } catch(error) {
             console.log(error);
         }
-    }, [email, password]); 
+    }, [email, password, router]); 
 
     const register = useCallback(async () => {
         try {
