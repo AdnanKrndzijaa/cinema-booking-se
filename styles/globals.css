@@ -13,6 +13,28 @@ p {
     font-family: 'Open Sans', 'sans-serif';
 }
 
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Montserrat', 'sans-serif';
+}
+
+h1 {
+    font-size: 48px;
+    line-height: 72px;
+    font-weight: bold;
+}
+
+h4 {
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: bold;
+}
+
+h6 {
+    font-size: 18px;
+    line-height: 27px;
+    font-weight: bold; 
+}
+
 .primary-button {
     background-color: #F97737;
 }
@@ -26,3 +48,42 @@ p {
     background-color: white;
     color: #1B181D;
 }
+
+.single-movie {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.single-movie:hover {
+    box-shadow: 0px 0px 15px rgba(255,255,255,0.2);
+    outline: 2px solid white;
+}
+
+.movie-overlay-gradient {
+    background: transparent linear-gradient(180deg, #1B181D66 0%, #1B181DA6 19%, #1B181DE6 38%, #1B181DF2 58%, #1B181D 78%, #1B181D 100%) 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+
+/*
+
+.single-movie:hover {
+    box-shadow: 0px 0px 15px rgba(255,255,255,0.2);
+}
+
+.single-movie img {
+    max-width: 100%;
+    transition: all 0.3s;
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: scale(1);
+}
+
+.single-movie:hover img {
+    transform: scale(1.1);
+}
+
+*/
+

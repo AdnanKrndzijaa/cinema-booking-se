@@ -30,48 +30,21 @@ model VerificationToken {
 
 }
 
-
-
-
-
-
-
-
-
-
 model Movie {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String
   description String
   bannerUrl String
   thumbnailUrl String
+  storyline String
   genre String[]
   duration String
-  releaseYear DateTime
+  releaseYear String
+  writers String[]
+  actors String[]
+  casts  String[]
+  actorImagesUrl String[]
+  galleryImages String[]
 
-  actors             Actor[] // Brad Pitt, Angelina Jolie
-  casts          Cast[] // Adnan Brkic, Adnan Krndzija
-}
+} 
 
-model Actor {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  firstName String
-  lastName String
-  avatarUrl String
-
-  casts          Cast[] //
-  movie              Movie      @relation(fields: [movieId], references: [id])
-  movieId            String @db.ObjectId
-
-}
-
-
-model Cast {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  nameInMovie String
-
-  movie                 Movie     @relation(fields: [movieId], references: [id])
-  actor                 Actor     @relation(fields: [actorId], references: [id])
-  movieId               String @db.ObjectId
-  actorId               String @db.ObjectId
-}
