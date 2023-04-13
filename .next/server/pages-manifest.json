@@ -2,5 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/movie/[movieId]": "pages/movie/[movieId].js"
+  "/dashboard": "pages/dashboard.js",
+  "/movie/[movieId]": "pages/movie/[movieId].js",
+  "/api/movies/[movieId]": "pages/api/movies/[movieId].js"
 }
