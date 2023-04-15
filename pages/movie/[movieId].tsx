@@ -59,7 +59,7 @@ const Movie = () => {
 				<div className='mb-[60px]'>
 					<h4 className='mb-[28px] text-white'>Details</h4>
 					<div className='grid ms:grid-cols-4 py-[20px] rounded-[10px] bg-[#242225] my-[12px] pl-[20px]'>
-						<h6 className='text-white mb-[8px] ms:mb-0'>Genres</h6>
+						<h6 className='text-white mb-[8px] ms:mb-0'>Genres:</h6>
 						<div className='flex gap-[8px] col-span-3 ms:ml-[20px]'>
 							{data?.genre.map((item) => (
 								<Genre title={item}/>
