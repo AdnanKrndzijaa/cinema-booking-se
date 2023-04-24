@@ -35,7 +35,7 @@ model Movie {
   title String
   description String
   bannerUrl String
-  thumbnailUrl String
+  thumbnailUrl String?
   storyline String
   genre String[]
   duration String
@@ -45,6 +45,5 @@ model Movie {
   casts  String[]
   actorImagesUrl String[]
   galleryImages String[]
-
 } 
 
