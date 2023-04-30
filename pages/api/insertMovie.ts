@@ -7,11 +7,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(405).end();
     }
 
-    const { firstName, lastName, email, password } = req.body;
+    const { 
+      movieName,
+      movieDescription,
+      movieBanner,
+      movieRating,
+      movieTrailer,
+      movieStoryline,
+      movieDuration,
+      movieGenres,
+      movieReleaseYear,
+      movieWriters,
+      movieCastersRealNames,
+      movieCastersMovieNames,
+      movieCastersImages,
+      movieImages } = req.body;
 
     const existingMovie = await prismadb.movie.findUnique({
       where: {
-        name
+        title : movieName
       }
     })
 
@@ -19,16 +33,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(422).json({ error: 'Movie already exist' });
     }
 
-
-    const user = await prismadb.movie.create({
+    const movie = await prismadb.movie.create({
       data: {
-        firstName,
-        lastName,
-        email,
+        title : movieName,
+        description : movieDescription,
+        bannerUrl : movieBanner,
+        genre : { set: movieGenres },
+        duration: movieDuration,
+        trailer: movieTrailer,
+        rating: movieRating,
+        releaseYear : movieReleaseYear,
+        actorImagesUrl : { set: movieCastersImages },
+        actors : { set: movieCastersRealNames },
+        casts : { set: movieCastersMovieNames },
+        galleryImages : { set: movieImages },
+        storyline: movieStoryline,
+        writers : { set: movieWriters },
       }
     })
 
-    return res.status(200).json(user);
+    return res.status(200).json(movie);
   } catch (error) {
     return res.status(400).json({ error: `Something went wrong: ${error}` });
   }

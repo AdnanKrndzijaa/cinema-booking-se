@@ -4,7 +4,7 @@ interface InputProps {
     id : string;
     onChange : any;
     value: string;
-    label: string;
+    label?: string;
     type?: string;
     placeholder: string;
 }
@@ -19,7 +19,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
     return (
         <div className="flex flex-col mb-[16px] w-full">
-            <label className="text-[14px] text-white font-opensans mb-[8px]" htmlFor={id}>
+            <label className={`text-[14px] text-white font-opensans ${label? 'mb-[8px]' : 'mb-0'}`} htmlFor={id}>
                 {label}
             </label>
             

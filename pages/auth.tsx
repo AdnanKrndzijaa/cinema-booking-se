@@ -62,6 +62,7 @@ const Auth = () => {
                                 id="firstName"
                                 onChange={(ev)=> setFirstName(ev.target.value)}
                                 value={firstName}
+                                type="text"
                                 label="First Name"
                                 placeholder="John"
                             />
@@ -69,6 +70,7 @@ const Auth = () => {
                                 id="lastName"
                                 onChange={(ev)=> setLastName(ev.target.value)}
                                 value={lastName}
+                                type="text"
                                 label="Last Name"
                                 placeholder="Doe"
                             />
@@ -78,6 +80,7 @@ const Auth = () => {
                         id="email"
                         onChange={(ev)=> setEmail(ev.target.value)}
                         value={email}
+                        type="email"
                         label="Email"
                         placeholder="hello@example.com"
                      />
@@ -86,6 +89,7 @@ const Auth = () => {
                         id="password"
                         onChange={(ev)=> setPassword(ev.target.value)}
                         value={password}
+                        type="password"
                         label="Password"
                         placeholder=""
                      />

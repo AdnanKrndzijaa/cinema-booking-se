@@ -32,16 +32,29 @@ h6 {
 
 .primary-button {
     background-color: #F97737;
+    transition: 0.2s all;
+    text-transform: uppercase;
+}
+
+.primary-button:hover {
+    box-shadow: 0px 0px 15px rgba(249, 119, 55, 0.3);
+    text-shadow: 0px 0px 15px rgba(249, 119, 55, 0.3);
 }
 
 .secondary-button {
-    border: 1px solid white;
+    border: 1px solid rgba(255,255,255,0.3);
     transition: 0.2s all;
+    text-transform: uppercase;
 }
 
 .secondary-button:hover {
-    background-color: white;
-    color: #1B181D;
+    border: 1px solid white;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+    text-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+}
+
+.secondary-button:hover svg {
+    filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.8));
 }
 
 .single-movie {
@@ -53,7 +66,7 @@ h6 {
 
 .single-movie:hover {
     box-shadow: 0px 0px 15px rgba(255,255,255,0.2);
-    outline: 2px solid white;
+    outline: 1px solid white;
 }
 
 .movie-overlay-gradient {
@@ -61,7 +74,17 @@ h6 {
     opacity: 1;
 }
 
-/*
+.inputwcontrol:focus-within{
+    outline: 3px solid white;
+    box-shadow: 0px 0px 15px rgba(255,255,255,0.2);
+}
+
+.searchwcontrol:focus-within .search-icon path {
+    fill: white
+}
+
+
+
 
 .single-movie:hover {
     box-shadow: 0px 0px 15px rgba(255,255,255,0.2);
@@ -71,8 +94,6 @@ h6 {
     max-width: 100%;
     transition: all 0.3s;
     display: block;
-    width: 100%;
-    height: auto;
     transform: scale(1);
 }
 
@@ -80,5 +101,63 @@ h6 {
     transform: scale(1.1);
 }
 
-*/
+.customCheckbox {
+  display: flex;
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  align-items: center;
+}
+
+.customCheckbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.customCheckbox:hover input ~ .checkmark {
+  box-shadow: 0px 0px 15px rgba(255,255,255,0.3);
+}
+
+.customCheckbox input:checked ~ .checkmark {
+  background-color: white;
+  border: none;
+}
+
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+
+.customCheckbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.customCheckbox .checkmark:after {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9.409' height='8' viewBox='0 0 9.409 8'%3E%3Cpath id='interface-validation-check_1_' data-name='interface-validation-check (1)' d='M9.141,187.192a.326.326,0,0,0-.192.092c-.01.01-1.339,1.617-2.954,3.57-1.646,1.991-2.946,3.562-2.96,3.574a.343.343,0,0,1-.187.085.339.339,0,0,1-.291-.114c-.009-.011-.432-.553-.939-1.2S.688,192,.677,191.989a.334.334,0,0,0-.161-.087.4.4,0,0,0-.154,0,.345.345,0,0,0-.232.2.369.369,0,0,0-.011.214,8.7,8.7,0,0,0,.968,1.284c.509.655.942,1.21.961,1.232a1,1,0,0,0,.5.316,1.017,1.017,0,0,0,.6-.025,1.033,1.033,0,0,0,.286-.159c.086-.068-.018.057,3.064-3.673,1.612-1.95,2.939-3.557,2.949-3.571a.356.356,0,0,0,.055-.111.436.436,0,0,0,0-.176.341.341,0,0,0-.285-.246.25.25,0,0,0-.082,0' transform='translate(-0.108 -187.189)' fill='%23575757' fill-rule='evenodd'/%3E%3C/svg%3E%0A");
+  left: 6px;
+  top: -4px;
+  height: 8px;
+  width: auto;
+}
+
 
