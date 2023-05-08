@@ -69,7 +69,7 @@ const Movie = () => {
 						pathTransitionDuration: 0.5,
 				
 						// Colors
-						pathColor: `rgba(249, 119, 55, 100)`,
+						pathColor: `rgba(255, 116, 48, 100)`,
 						textColor: '#fff',
 						trailColor: '#3B383D',
 						backgroundColor: '#3e98c7',

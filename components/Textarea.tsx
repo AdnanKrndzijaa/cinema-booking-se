@@ -25,7 +25,7 @@ const Textarea: React.FC<Props> = ({id,
             onChange={onChange}
             placeholder={placeholder}
             rows={4}
-            className="rounded-[10px] font-opensans text-[16px] bg-primaryvariant1 p-[16px] text-white placeholder:text-placeholder focus:outline-[1px] focus:outline-white focus:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+            className="rounded-[10px] font-opensans text-[16px] bg-primaryvariant1 p-[16px] text-white placeholder:text-placeholder customInput"
         />
     </div>
   )

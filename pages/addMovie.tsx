@@ -6,6 +6,7 @@ import Input from '@/components/Input';
 import Textarea from '@/components/Textarea';
 import Checkbox from '@/components/Checkbox';
 import router, { useRouter } from "next/router";
+import Button from '@/components/Button';
 
 
 
@@ -18,7 +19,7 @@ const addmovie = () => {
   const [movieStoryline, setMovieStoryline] = useState('');
   const [movieDuration, setMovieDuration] = useState('');
   const [movieReleaseYear, setMovieReleaseYear] = useState('');
-  const [movieGenresList] = useState(["Action", "Sci-Fi", "Fantasy"]);
+  const [movieGenresList] = useState(["Action", "Sci-Fi", "Fantasy", "Animation", "Adventure", "Biography", "Comedy", "Drama", "Documentary", "Horror", "Romance", "Thriller", "Western"]);
 
   // Movie Writers
 
@@ -122,7 +123,7 @@ const addmovie = () => {
 
   // Movie Genres
 
-  const [movieGenres, setMovieGenres] = useState<string[]>(['']); // Initial state with an empty string in the array
+  const [movieGenres, setMovieGenres] = useState<string[]>([]); // Initial state with an empty string in the array
 
   const handleMovieGenresInputChange = (value: string) => {
     const currentIndex = movieGenres.indexOf(value);
@@ -449,9 +450,8 @@ const addmovie = () => {
 
         <div className='flex justify-end'>
             
-            <button onClick={addMovie} className="primary-button rounded-[10px] bg-accent p-[16px_32px] text-[16px] font-opensans text-white font-bold uppercase my-[20px]">
-                  Submit
-            </button>
+            <Button className='mr-[16px]' label="Cancel" type='secondary'/>
+            <Button label="Submit" type='primary' clickFunction={addMovie}/>
         </div>
         
     </div>

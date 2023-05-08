@@ -31,14 +31,13 @@ h6 {
 }
 
 .primary-button {
-    background-color: #F97737;
+    background-color: #FF7430;
     transition: 0.2s all;
     text-transform: uppercase;
 }
 
 .primary-button:hover {
-    box-shadow: 0px 0px 15px rgba(249, 119, 55, 0.3);
-    text-shadow: 0px 0px 15px rgba(249, 119, 55, 0.3);
+    box-shadow:0px 0px 10px rgba(255,116,48,0.3);
 }
 
 .secondary-button {
@@ -49,12 +48,17 @@ h6 {
 
 .secondary-button:hover {
     border: 1px solid white;
-    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
-    text-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+    box-shadow:0px 0px 10px rgba(255,255,255,0.3);
+    text-shadow:0px 0px 10px rgba(255,255,255,0.3);
 }
 
 .secondary-button:hover svg {
     filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.8));
+}
+
+.customInput:focus {
+    outline: 1px solid white;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
 }
 
 .single-movie {
@@ -70,20 +74,18 @@ h6 {
 }
 
 .movie-overlay-gradient {
-    background: transparent linear-gradient(180deg, #1B181D66 0%, #1B181DA6 19%, #1B181DE6 38%, #1B181DF2 58%, #1B181D 78%, #1B181D 100%) 0% 0% no-repeat padding-box;
+    background: transparent linear-gradient(180deg, #1B181D66 0%, #1B181DA6 9%, #1B181DE6 25%, #1B181DF2 49%, #1B181D 80%, #1B181D 100%) 0% 0% no-repeat padding-box;
     opacity: 1;
 }
 
 .inputwcontrol:focus-within{
-    outline: 3px solid white;
-    box-shadow: 0px 0px 15px rgba(255,255,255,0.2);
+    outline: 1px solid white;
+    box-shadow: 0px 0px 10px rgba(255,255,255,0.2);
 }
 
 .searchwcontrol:focus-within .search-icon path {
     fill: white
 }
-
-
 
 
 .single-movie:hover {
