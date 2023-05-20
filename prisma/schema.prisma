@@ -18,6 +18,7 @@ model User {
   hashedPassword String
   favouriteMovies String[] @db.ObjectId
   type String @default("User")
+
 }
 
 model VerificationToken {
@@ -45,5 +46,16 @@ model Movie {
   casts  String[]
   actorImagesUrl String[]
   galleryImages String[]
+} 
+
+model Ticket {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  bannerUrl String
+  movieTitle String
+  dateTimeOfCreation String
+  seatNumber  String
+  hallNumber String
+  barcode String
+
 } 
 
