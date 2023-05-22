@@ -140,7 +140,7 @@ const addmovie = () => {
 
   const addMovie = useCallback(async () => {
     try {
-        await axios.post('/api/insertmovie', {
+        await axios.post('/api/insertMovie', {
             movieName,
             movieDescription,
             movieBanner,
