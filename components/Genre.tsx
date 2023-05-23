@@ -2,7 +2,7 @@ import React from 'react'
 
 interface GenreProps{
     title: String;
-    key: String;
+    key: any;
 }
 
 const Genre: React.FC<GenreProps> = ({title,key}) => {
