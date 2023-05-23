@@ -4,7 +4,7 @@ import useMovieList from "@/hooks/useMovieList"
 import Footer from "@/components/Footer"
 
 
-const dashboard = () => {
+const Dashboard = () => {
     const {data: movies = []} = useMovieList();
 
     return (
@@ -17,4 +17,4 @@ const dashboard = () => {
     )
 }
 
-export default dashboard
+export default Dashboard
