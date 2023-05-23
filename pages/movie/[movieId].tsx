@@ -89,8 +89,8 @@ const Movie = () => {
 					<div className='grid ms:grid-cols-4 py-[20px] rounded-[10px] bg-[#242225] my-[12px] pl-[20px]'>
 						<h6 className='text-white mb-[8px] ms:mb-0'>Genres:</h6>
 						<div className='flex gap-[8px] col-span-3 ms:ml-[20px]'>
-							{data?.genre.map((item) => (
-								<Genre title={item}/>
+							{data?.genre.map((item, index) => (
+								<Genre key={index} title={item}/>
 							))}
 						</div>
 					</div>
@@ -106,7 +106,7 @@ const Movie = () => {
 						<h6 className='text-white mb-[8px] ms:mb-0'>Writers</h6>
 						<div className='ms:flex gap-[8px] col-span-3 ms:ml-[20px]'>
 							{data?.writers.map((writer, index) => (
-								<p className='text-white flex'>{writer}<span className={`${ index === data?.writers.lenght - 1 ? 'hidden' : 'flex'}`}>,</span></p>
+								<p className='text-white flex'>{writer}<span className={`${ index === data?.writers.lenght - 1 ? 'hidden' : 'flex'}`} key={index}>,</span></p>
 							))}
 						</div>
 					</div>
@@ -117,7 +117,7 @@ const Movie = () => {
 					<h4 className='mb-[28px] text-white mr-[20px]'>Cast & Crew</h4>
 					<div className='grid gap-[28px]'>
 						{data?.actors.map((actor, index) =>(
-							<Actor avatar={data?.actorImagesUrl[index]} realName={actor} movieName={data?.casts[index]}/>
+							<Actor key={index} avatar={data?.actorImagesUrl[index]} realName={actor} movieName={data?.casts[index]}/>
 						))}
 					</div>
 				</div>
@@ -126,8 +126,8 @@ const Movie = () => {
 				<div className='mb-[60px]'>
 					<h4 className='mb-[28px] text-white'>Gallery</h4>
 					<div className='grid grid-cols-4 gap-[28px]'>
-						{data?.galleryImages.map((image) =>(
-							<img className='rounded-[10px] aspect-video w-full object-cover' src={image}></img>
+						{data?.galleryImages.map((image, index) =>(
+							<img className='rounded-[10px] aspect-video w-full object-cover' src={image} key={index}></img>
 						))}
 					</div>
 				</div>

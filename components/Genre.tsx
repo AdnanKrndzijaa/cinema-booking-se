@@ -1,12 +1,13 @@
 import React from 'react'
 
 interface GenreProps{
-    title: String
+    title: String;
+    key: String;
 }
 
-const Genre: React.FC<GenreProps> = ({title}) => {
+const Genre: React.FC<GenreProps> = ({title,key}) => {
   return (
-    <p className='bg-primaryvariant1 rounded-[4px] text-white text-[12px] font-opensans px-[10px] py-[4px] w-fit'>{title}</p>
+    <p key={key} className='bg-primaryvariant1 rounded-[4px] text-white text-[12px] font-opensans px-[10px] py-[4px] w-fit'>{title}</p>
   )
 }
 
