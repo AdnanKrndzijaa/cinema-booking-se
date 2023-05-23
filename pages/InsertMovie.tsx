@@ -10,7 +10,7 @@ import Button from '@/components/Button';
 
 
 
-const addmovie = () => {
+const InsertMovie = () => {
   const [movieName, setMovieName] = useState('');
   const [movieDescription, setMovieDescription] = useState('');
   const [movieBanner, setMovieBanner] = useState('');
@@ -458,4 +458,4 @@ const addmovie = () => {
   )
 }
 
-export default addmovie
+export default InsertMovie

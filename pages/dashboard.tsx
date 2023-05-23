@@ -1,8 +1,8 @@
 import Navbar from "@/components/Navbar"
 import MovieList from "@/components/MovieList"
 import useMovieList from "@/hooks/useMovieList"
-
 import Footer from "@/components/Footer"
+
 
 const dashboard = () => {
     const {data: movies = []} = useMovieList();
