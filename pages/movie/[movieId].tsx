@@ -59,22 +59,8 @@ const Movie = () => {
 			<div className='w-full flex flex-col items-center mb-[40px] ss:mb-0 ss:w-2/6 ss:pr-[60px] m:pr-[110px]'>
 				<img className='rounded-[10px]' src={data?.bannerUrl}></img>
 				<div className='w-[100px] mt-[80px]'>
-					<CircularProgressbar className='font-montserrat font-bold' strokeWidth="8" minValue={0} maxValue={10} value={data?.rating} text={`${data?.rating}`}
-					 styles={buildStyles({
-				
-						strokeLinecap: 'round',
-						textSize: '30px',
-				
-						// How long animation takes to go from one percentage to another, in seconds
-						pathTransitionDuration: 0.5,
-				
-						// Colors
-						pathColor: `rgba(255, 116, 48, 100)`,
-						textColor: '#fff',
-						trailColor: '#3B383D',
-						backgroundColor: '#3e98c7',
-					})}
-					/>
+					
+					
 					<h6 className='text-white text-[20px] font-montserrat mt-[20px] text-center'>Rating</h6>
 					<p className='text-[12px] text-[#8B898C] text-center mt-[8px]'>IMDb certified ratings</p>
 				</div>
