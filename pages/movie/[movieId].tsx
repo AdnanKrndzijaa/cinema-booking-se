@@ -33,12 +33,12 @@ const Movie = () => {
 						<p className='text-text mb-[40px]'>{data?.description}</p>
 						<div className='flex flex-col ms:flex-row gap-[12px]'>
 							<Button 
-							type="primary"
+							style="primary"
 							label="Buy Tickets"
 							/>
 							<div className='flex w-full ms:w-[initial] gap-[12px]'>
 								<Button 
-								type="secondary"
+								style="secondary"
 								label="Watch Trailer"
 								/>
 								<button className='flex w-[58px] secondary-button items-center justify-center border-[1px] rounded-[10px] aspect-square'>

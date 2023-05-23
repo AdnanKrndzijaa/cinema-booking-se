@@ -20,6 +20,7 @@ const Navbar = () => {
     const handleAvatarClick = () => {
         setIsMenuOpen(!isMenuOpen);
     }
+
     return (
         <div className="
             w-full
@@ -64,7 +65,13 @@ const Navbar = () => {
                     </div>
                     {currentUser ? (
                         <div className="relative z-50">
-                            <div className={`bg-gray-700 w-[56px] h-full rounded-full cursor-pointer ${isMenuOpen ? "avatar" : "border-none"}`} onClick={handleAvatarClick}>
+                            <div className={`w-[56px] h-full cursor-pointer select-none ${isMenuOpen ? "avatar" : "border-none"}`} onClick={handleAvatarClick}>
+                                {currentUser.avatar?(
+                                    <img className="object-cover rounded-full " src={currentUser?.avatar}></img>
+                                ):(
+                                    <img className="object-cover rounded-full " src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png"></img>
+                                )}
+                                
                             </div>
                             <div className={`bg-primaryvariant1 cursor-pointer rounded-[10px] p-[20px] w-[180px] mt-[16px] right-0 absolute ${isMenuOpen ? "vissible": "hidden"}`}>
                                 <div className="flex items-center mb-[16px]">
@@ -91,12 +98,12 @@ const Navbar = () => {
                     ) : (
                         <div className="flex gap-[12px]">
                             <Button
-                            type="secondary"
+                            style="secondary"
                             label="Login"
                             clickFunction={handleLogin}
                             />
                             <Button
-                            type="primary"
+                            style="primary"
                             label="Register"
                             />
                         </div>

@@ -1,32 +1,19 @@
-import { NextPageContext } from "next"
-import { getSession, signOut } from "next-auth/react"
-import Navbar from "@/components/Navbar";
-
-
-
-export async function getServerSideProps(context: NextPageContext) {
-  const session = await getSession(context);
-
-  if(!session) {
-    return {
-      redirect: {
-        destination: "/auth",
-        permanent: false,
-      }
-    }
-  }
-  return {
-    props: {}
-  }
-}
+import Navbar from "@/components/Navbar"
+import MovieList from "@/components/MovieList"
+import useMovieList from "@/hooks/useMovieList"
+import Footer from "@/components/Footer"
 
 
 
 export default function Home() {
+  const {data: movies = []} = useMovieList();
+
   return (
-    <div className="px-[9.5vw]">
-        <Navbar/>
-        <button className="text-white" onClick={()=> signOut()}>LogOut za testiranje</button>
-    </div>
+      <div className="px-[9.5vw]">
+          <Navbar/>
+          <div className="mb-[80px]"></div>
+          <MovieList title="Latest" data={movies}/>
+          <Footer></Footer>
+      </div>
   )
 }
