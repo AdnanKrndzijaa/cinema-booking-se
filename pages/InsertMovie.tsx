@@ -307,7 +307,7 @@ const InsertMovie = () => {
                     onChange={(e) => handleMovieGenresInputChange(e.target.value)}
                     className='rounded-[5px]'
                   />
-                  <span class="checkmark"></span>
+                  <span className="checkmark"></span>
 
                   {option}
                 </label>
@@ -450,8 +450,8 @@ const InsertMovie = () => {
 
         <div className='flex justify-end'>
             
-            <Button className='mr-[16px]' label="Cancel" type='secondary'/>
-            <Button label="Submit" type='primary' clickFunction={addMovie}/>
+            <Button className='mr-[16px]' label="Cancel" style='secondary'/>
+            <Button label="Submit" style="primary" clickFunction={addMovie}/>
         </div>
         
     </div>
