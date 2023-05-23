@@ -189,7 +189,7 @@ const InsertMovie = () => {
               />
               <Input
                   id="movieName"
-                  onChange={(ev)=> setMovieName(ev.target.value)}
+                  onChange={(ev:any)=> setMovieName(ev.target.value)}
                   value={movieName}
                   placeholder="Enter movie name"
               />
@@ -221,7 +221,7 @@ const InsertMovie = () => {
             />
             <Input
                 id="movieBanner"
-                onChange={(ev)=> setMovieBanner(ev.target.value)}
+                onChange={(ev:any)=> setMovieBanner(ev.target.value)}
                 value={movieBanner}
                 placeholder="Paste Banner URL"
             />
@@ -251,7 +251,7 @@ const InsertMovie = () => {
             />
             <Input
                 id="movieTrailer"
-                onChange={(ev)=> setMovieTrailer(ev.target.value)}
+                onChange={(ev:any)=> setMovieTrailer(ev.target.value)}
                 value={movieTrailer}
                 placeholder="Paste Movie Trailer URL here.."
             />
@@ -282,7 +282,7 @@ const InsertMovie = () => {
             />
             <Input
                 id="movieDuration"
-                onChange={(ev)=> setMovieDuration(ev.target.value)}
+                onChange={(ev:any)=> setMovieDuration(ev.target.value)}
                 value={movieDuration}
                 placeholder="Enter Movie Duration"
             />
@@ -326,7 +326,7 @@ const InsertMovie = () => {
             />
             <Input
                 id="movieReleaseYear"
-                onChange={(ev)=> setMovieReleaseYear(ev.target.value)}
+                onChange={(ev:any)=> setMovieReleaseYear(ev.target.value)}
                 value={movieReleaseYear}
                 placeholder="Enter Release Year"
             />
@@ -388,7 +388,7 @@ const InsertMovie = () => {
                       value={movieCastersRealNames[index]}
                       id={`actorReal`+index}
                       type="text"
-                      onChange={(event) => handleMovieCastersRealNamesInputChange(index, event)}
+                      onChange={(event:any) => handleMovieCastersRealNamesInputChange(index, event)}
                       placeholder="Enter Actor Real Name"
                   />
 
@@ -396,7 +396,7 @@ const InsertMovie = () => {
                       value={movieCastersMovieNames[index]}
                       id={`actorMovie`+index}
                       type="text"
-                      onChange={(event) => handleMovieCastersMovieNamesInputChange(index, event)}
+                      onChange={(event:any) => handleMovieCastersMovieNamesInputChange(index, event)}
                       placeholder="Enter Actor Movie Name"
                   />
 
@@ -404,7 +404,7 @@ const InsertMovie = () => {
                       value={movieCastersImages[index]}
                       id={`actorImage`+index}
                       type="text"
-                      onChange={(event) => handleMovieCastersImagesInputChange(index, event)}
+                      onChange={(event:any) => handleMovieCastersImagesInputChange(index, event)}
                       placeholder="Paste Actor Image URL"
                   />
                 </div>

@@ -58,7 +58,7 @@ const Navbar = () => {
                     <div className="hidden m:flex">
                         <Search
                             id="search_bar"
-                            onChange={(ev)=> setSearch(ev.target.value)}
+                            onChange={(ev:any)=> setSearch(ev.target.value)}
                             value={search}
                             placeholder="Search"
                         />
@@ -123,7 +123,7 @@ const Navbar = () => {
             <div className="w-full mt-[16px] hidden ms:flex m:hidden">
                 <Search
                     id="search_bar"
-                    onChange={(ev)=> setSearch(ev.target.value)}
+                    onChange={(ev:any)=> setSearch(ev.target.value)}
                     value={search}
                     placeholder="Search"
                 />
