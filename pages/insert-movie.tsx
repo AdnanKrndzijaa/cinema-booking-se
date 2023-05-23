@@ -297,9 +297,9 @@ const InsertMovie = () => {
               You can add multiple genres if the movie fits into more than one category.'
             />
 
-            {movieGenresList.map((option) => (
-              <div className="flex flex-col">
-                <label className='text-white text-[16px] my-[8px] customCheckbox' key={option}>
+            {movieGenresList.map((option,index) => (
+              <div className="flex flex-col" key={index}>
+                <label className='text-white text-[16px] my-[8px] customCheckbox'>
                   <input
                     type="checkbox"
                     value={option}
@@ -342,7 +342,7 @@ const InsertMovie = () => {
             />
 
             {movieWriters.map((input, index) => (
-              <div className="inputwcontrol flex w-full bg-primaryvariant1 rounded-[10px] items-center mb-[16px]">
+              <div key={index} className="inputwcontrol flex w-full bg-primaryvariant1 rounded-[10px] items-center mb-[16px]">
                 <input 
                     value={input}
                     id={`writter`+index}
@@ -375,7 +375,7 @@ const InsertMovie = () => {
             />
 
             {movieCastersRealNames.map((actor, index) => (
-            <div className='rounded-[16px] border-[#6B696C] border-[1px] p-[20px_20px_4px_20px] mb-[16px]'>
+            <div className='rounded-[16px] border-[#6B696C] border-[1px] p-[20px_20px_4px_20px] mb-[16px]' key={index}>
                 <div className='flex justify-between mb-[20px] items-center'>
                   <h3 className='text-white text-[20px] mb-[16px] flex items-center'>Actor <span className='bg-primaryvariant1 ml-[12px] w-[24px] h-[24px] flex items-center justify-center rounded-[5px] text-white text-[14px] font-semibold'>{index+1}</span></h3>
                   <div onClick={() => handleDeleteCasts(index)} className="h-[38px] w-[38px] overflow-hidden aspect-square rounded-[6px] bg-accent flex justify-self-end items-center justify-center cursor-pointer mr-[9px]">
@@ -424,7 +424,7 @@ const InsertMovie = () => {
             />
 
             {movieImages.map((input, index) => (
-              <div className="inputwcontrol flex w-full bg-primaryvariant1 rounded-[10px] items-center mb-[16px]">
+              <div className="inputwcontrol flex w-full bg-primaryvariant1 rounded-[10px] items-center mb-[16px]" key={index}>
                 <input 
                     value={input}
                     id={`image`+index}
