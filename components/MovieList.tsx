@@ -14,6 +14,7 @@ const MovieList: React.FC<MovieListProps> = ({data, title}) => {
 
         {data.map((movie) => (
           <SingleMovie
+            key={movie.id}
             id={movie.id}
             bannerUrl={movie.bannerUrl}
           />
