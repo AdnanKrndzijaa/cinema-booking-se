@@ -10,6 +10,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const { firstName, lastName, email, password } = req.body;
 
+    // Perform validation checks on the input fields
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    // Validate the email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+
+    
     const existingUser = await prismadb.user.findUnique({
       where: {
         email
