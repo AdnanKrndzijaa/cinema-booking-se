@@ -60,3 +60,11 @@ model Ticket {
 
 } 
 
+model Showtime {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  movie String
+  dateTime String
+  type String
+
+} 
+
