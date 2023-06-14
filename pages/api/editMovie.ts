@@ -1,26 +1,47 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '@/lib/prismadb';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    if (req.method === 'PUT') {
+class Database {
+  private static instance: Database | null = null;
+
+  private constructor() {
+    // Private constructor to prevent direct instantiation
+  }
+
+  public static getInstance(): Database {
+    if (!Database.instance) {
+      Database.instance = new Database();
+    }
+
+    return Database.instance;
+  }
+
+  public async updateMovie(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+    try {
+      if (req.method !== 'PUT') {
+        res.status(405).end();
+        return;
+      }
+
       const { movieId } = req.body;
 
       if (!movieId) {
-        return res.status(400).json({ error: 'Movie ID is required' });
+        res.status(400).json({ error: 'Movie ID is required' });
+        return;
       }
 
       const existingMovie = await prismadb.movie.findUnique({
         where: {
           id: movieId,
-        }
-      })
+        },
+      });
 
       if (!existingMovie) {
-        return res.status(404).json({ error: 'Movie not found' });
+        res.status(404).json({ error: 'Movie not found' });
+        return;
       }
 
-      const { 
+      const {
         movieName,
         movieDescription,
         movieBanner,
@@ -34,36 +55,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         movieCastersRealNames,
         movieCastersMovieNames,
         movieCastersImages,
-        movieImages
+        movieImages,
       } = req.body;
 
       const updatedMovie = await prismadb.movie.update({
         where: {
-          id: movieId 
+          id: movieId,
         },
         data: {
-          title : movieName,
-          description : movieDescription,
-          bannerUrl : movieBanner,
-          genre : { set: movieGenres },
+          title: movieName,
+          description: movieDescription,
+          bannerUrl: movieBanner,
+          genre: { set: movieGenres },
           duration: movieDuration,
           trailer: movieTrailer,
           rating: movieRating,
-          releaseYear : movieReleaseYear,
-          actorImagesUrl : { set: movieCastersImages },
-          actors : { set: movieCastersRealNames },
-          casts : { set: movieCastersMovieNames },
-          galleryImages : { set: movieImages },
+          releaseYear: movieReleaseYear,
+          actorImagesUrl: { set: movieCastersImages },
+          actors: { set: movieCastersRealNames },
+          casts: { set: movieCastersMovieNames },
+          galleryImages: { set: movieImages },
           storyline: movieStoryline,
-          writers : { set: movieWriters },
-        }
-      })
+          writers: { set: movieWriters },
+        },
+      });
 
-      return res.status(200).json(updatedMovie);
+      res.status(200).json(updatedMovie);
+    } catch (error) {
+      res.status(400).json({ error: `Something went wrong: ${error}` });
     }
+  }
+}
 
-    return res.status(405).end();
-  } catch (error) {
-    return res.status(400).json({ error: `Something went wrong: ${error}` });
+// Usage in your handler function
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const dbInstance = Database.getInstance();
+
+  if (req.method === 'PUT') {
+    await dbInstance.updateMovie(req, res);
+  } else {
+    res.status(405).end();
   }
 }
