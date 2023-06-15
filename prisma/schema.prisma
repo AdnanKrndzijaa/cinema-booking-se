@@ -1,25 +1,26 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client-js"
-}
 
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
+
+generator client {
+  provider        = "prisma-client-js"
+}
+
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   firstName String
   lastName String
-  avatar String?
+  avatar String? @default("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png")
   email String @unique
   hashedPassword String
   favouriteMovies String[] @db.ObjectId
   type String @default("User")
-
 }
 
 model VerificationToken {
@@ -28,7 +29,6 @@ model VerificationToken {
   token String @unique
   expires DateTime
   @@unique([identifier,token])
-
 }
 
 model Movie {
@@ -47,6 +47,7 @@ model Movie {
   casts  String[]
   actorImagesUrl String[]
   galleryImages String[]
+  showtimes Showtime[]
 } 
 
 model Ticket {
@@ -57,14 +58,13 @@ model Ticket {
   seatNumber  String
   hallNumber String
   barcode String
-
 } 
 
 model Showtime {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  movie String
+  movie Movie @relation(fields: [movieId], references: [id])
+  movieId String @db.ObjectId
   dateTime String
   type String
-
 } 
 

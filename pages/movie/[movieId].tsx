@@ -9,9 +9,9 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 const Movie = () => {
-	const router = useRouter();
-	const { movieId } = router.query;
-	const { data } = useMovie(movieId as string);
+  const router = useRouter();
+  const { movieId } = router.query;
+  const { data } = useMovie(movieId as string);
   const [randomIndex, setRandomIndex] = useState(null);
 
   useEffect(() => {

@@ -33,6 +33,6 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
-    "prisma": "^4.13.0"
+    "prisma": "^4.15.0"
   }
 }

@@ -157,7 +157,7 @@ const InsertMovie = () => {
             movieImages
         });
 
-        router.push('/dashboard');
+        router.push('/admin_dashboard');
 
     } catch(error) {
         console.log(error);

@@ -4,6 +4,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+scrollbar-width: auto;
+scrollbar-color: #8f54a0 #ef4e4e;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+background: #1B181D;
+}
+
+*::-webkit-scrollbar-thumb {
+background-color: #3B383D;
+border-radius: 10px;
+border: none;
+}
+
 body {
     background-color: #1B181D;
 }
@@ -59,6 +81,25 @@ h6 {
 .customInput:focus {
     outline: 1px solid white;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+}
+
+.admin-dashboard-tab-active {
+    background-color: #6B696C;
+}
+
+.admin-dashboard-tab-inactive:hover {
+    background-color: #6B696C;
+}
+
+.single-movie-admin {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.single-movie-admin:hover .single-movie-admin-commands {
+    display: flex;
 }
 
 .single-movie {
@@ -184,4 +225,39 @@ h6 {
   transform: translate(-50%,-50%);
 }
 
+th, td {
+    padding: 28px;
+}
 
+table {
+    border-spacing: 0;
+    border-collapse: separate;
+    border-radius: 10px;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #28262A;
+    border-radius: 20px;
+}
+
+thead th:first-child {
+    border-radius: 10px 0px 0px 0px;
+}
+
+thead th:last-child {
+    border-radius: 0px 10px 0px 0px;
+}
+
+tr:last-child td:first-child {
+    border-radius: 0px 0px 0px 10px;
+}
+
+tr:last-child > td:last-child {
+    border-radius: 0px 0px 10px 0px;
+}
+
+.order-buttons svg path:hover {
+    fill: #CBCBCB;
+    cursor: pointer;
+}
