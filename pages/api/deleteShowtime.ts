@@ -1,6 +1,33 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '@/lib/prismadb';
 
+class ShowtimeBuilder {
+  private showtimeId: string;
+
+  public withShowtimeId(showtimeId: string): ShowtimeBuilder {
+    this.showtimeId = showtimeId;
+    return this;
+  }
+
+  public async deleteShowtime(): Promise<void> {
+    const existingShowtime = await prismadb.showtime.findUnique({
+      where: {
+        id: this.showtimeId
+      }
+    });
+
+    if (!existingShowtime) {
+      throw new Error('Showtime not found');
+    }
+
+    await prismadb.showtime.delete({
+      where: {
+        id: this.showtimeId
+      }
+    });
+  }
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method !== 'DELETE') {
@@ -9,21 +36,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const { showtimeId } = req.body;
 
-    const existingShowtime = await prismadb.showtime.findUnique({
-      where: {
-        id: showtimeId
-      }
-    });
-
-    if (!existingShowtime) {
-      return res.status(404).json({ error: 'Showtime not found' });
-    }
-
-    await prismadb.showtime.delete({
-      where: {
-        id: showtimeId
-      }
-    });
+    await new ShowtimeBuilder()
+      .withShowtimeId(showtimeId)
+      .deleteShowtime();
 
     return res.status(200).json({ message: 'Showtime deleted successfully' });
   } catch (error) {
