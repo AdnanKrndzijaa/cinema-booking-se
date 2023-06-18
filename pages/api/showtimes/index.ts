@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prismadb from '@/lib/prismadb';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -7,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(405).end();
     }
 
-    const showtimes = await prismadb.showtime.findMany({
+    const showtimes = await prisma.showtime.findMany({
       include: {
         movie: {
           select: {
