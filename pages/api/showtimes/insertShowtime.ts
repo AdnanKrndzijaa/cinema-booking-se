@@ -1,52 +1,59 @@
+// Import the necessary modules
 import { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '@/lib/prismadb';
 
-class ShowtimeBuilder {
-  private movie: string;
-  private dateTime: string;
-  private type: string;
+// Define a Database class
+class Database {
+  private static instance: Database | null = null;
 
-  constructor(movie: string) {
-    this.movie = movie;
+  private constructor() {
+    // Private constructor to prevent direct instantiation
   }
 
-  public setDateTime(dateTime: string): ShowtimeBuilder {
-    this.dateTime = dateTime;
-    return this;
+  // Singleton pattern: Get an instance of the Database class
+  public static getInstance(): Database {
+    if (!Database.instance) {
+      Database.instance = new Database();
+    }
+
+    return Database.instance;
   }
 
-  public setType(type: string): ShowtimeBuilder {
-    this.type = type;
-    return this;
-  }
+  // Method to create a showtime in the database
+  public async createShowtime(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+    try {
+      // Check the request method
+      if (req.method !== 'POST') {
+        res.status(405).end();
+        return;
+      }
 
-  public async createShowtime(): Promise<any> {
-    return prismadb.showtime.create({
-      data: {
-        movie: this.movie,
-        dateTime: this.dateTime,
-        type: this.type,
-      },
-    });
+      // Destructure the request body to get showtime details
+      const { movie, dateTime, type } = req.body;
+
+      // Create the showtime in the database
+      const showtime = await prismadb.showtime.create({
+        data: {
+          movie,
+          dateTime,
+          type,
+        }
+      });
+
+      // Send the created showtime as the response
+      res.status(200).json(showtime);
+    } catch (error) {
+      // Handle any errors that occur during the process
+      res.status(400).json({ error: `Something went wrong: ${error}` });
+    }
   }
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    if (req.method !== 'POST') {
-      return res.status(405).end();
-    }
-
-    const { movie, dateTime, type } = req.body;
-
-    const showtimeBuilder = new ShowtimeBuilder(movie);
-    const showtime = await showtimeBuilder
-      .setDateTime(dateTime)
-      .setType(type)
-      .createShowtime();
-
-    return res.status(200).json(showtime);
-  } catch (error) {
-    return res.status(400).json({ error: `Something went wrong: ${error}` });
-  }
+// Usage in the handler function
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  // Get an instance of the Database class
+  const dbInstance = Database.getInstance();
+    
+  // Call the createShowtime method to handle the request
+  await dbInstance.createShowtime(req, res);
 }

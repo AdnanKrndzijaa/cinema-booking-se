@@ -70,5 +70,6 @@ model Showtime {
   movieId String @db.ObjectId
   dateTime DateTime
   type String
-} 
+}
+
 
