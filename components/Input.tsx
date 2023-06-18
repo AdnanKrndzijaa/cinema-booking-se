@@ -2,11 +2,12 @@ import React from "react";
 
 interface InputProps {
     id : string;
-    onChange : any;
+    onChange? : any;
     value: string;
     label?: string;
     type?: string;
-    placeholder: string;
+    placeholder?: string;
+    className?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -16,6 +17,7 @@ const Input: React.FC<InputProps> = ({
     label,
     type,
     placeholder,
+    className
 }) => {
     return (
         <div className="flex flex-col mb-[16px] w-full">
@@ -29,7 +31,7 @@ const Input: React.FC<InputProps> = ({
                 type={type}
                 onChange={onChange}
                 placeholder={placeholder}
-                className="customInput rounded-[10px] font-opensans text-[16px] bg-primaryvariant1 p-[16px] text-white placeholder:text-placeholder"
+                className={`${className} customInput rounded-[10px] font-opensans text-[16px] bg-primaryvariant1 p-[16px] text-white placeholder:text-placeholder`}
             />
         </div>
     )

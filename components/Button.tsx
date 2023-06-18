@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/dist/client/link';
 
 interface ButtonProps {
     style: string;
