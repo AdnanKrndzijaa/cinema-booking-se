@@ -1,10 +1,11 @@
+// Import the necessary modules
 import { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '@/lib/prismadb';
 import serverAuth from '@/lib/serverAuth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
-    return res.status(405).end();
+    return res.status(405).end(); // Method Not Allowed
   }
 
   try {
@@ -31,8 +32,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     });
 
-    return res.status(200).json(user);
+    return res.status(200).json(user); // Return the user as JSON response
   } catch (error) {
-    return res.status(500).json({ error: `Something went wrong: ${error.message}` });
+    return res.status(500).json({ error: `Something went wrong: ${error.message}` }); // Internal Server Error
   }
 }
