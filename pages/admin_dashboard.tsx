@@ -34,7 +34,7 @@ const admin_dashboard = () => {
   const handleConfirmDeleteMovie = useCallback(async (movieId) => {
     try {
 
-      await axios.delete('/api/deleteMovie', {
+      await axios.delete('/api/movies/deleteMovie', {
         data: { movieId }
       });
 
@@ -88,7 +88,7 @@ const admin_dashboard = () => {
   const handleConfirmDeleteShowtime = useCallback(async (showtimeId) => {
     try {
 
-      await axios.delete('/api/users/deleteShowtime', {
+      await axios.delete('/api/showtime/deleteShowtime', {
         data: { showtimeId }
       });
       location.reload();
