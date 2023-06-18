@@ -68,7 +68,7 @@ model Showtime {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   movie Movie @relation(fields: [movieId], references: [id])
   movieId String @db.ObjectId
-  dateTime String
+  dateTime DateTime
   type String
 } 
 

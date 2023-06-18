@@ -1,27 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '@/components/Navbar'
 import Button from '@/components/Button'
 import Footer from '@/components/Footer'
-import Date from '@/components/Date'
 import Time from '@/components/Time'
 import Seat from '@/components/Seat'
 import { cinema_screen } from '@/public/images'
 import Link from 'next/link'
 import useShowtime from '@/hooks/useShowtime'
 import { useRouter } from 'next/router'
+import DateComponent from '@/components/DateComponent'
 
 const Showtime = () => {
 	const router = useRouter();
 	const { showtimeId } = router.query;
-	const { data } = useShowtime(showtimeId as string);
+	const { data: showtime } = useShowtime(showtimeId as string);
+	const showtimesArray = showtime?.showtimes ?? [];
+
+	const currentDate = new Date();
+
+	const [dates, setDates] = useState([]);
+
+	useEffect(() => {
+		const today = new Date(); // Get the current date
+		const tempDates = [];
+		for (let i = 0; i < 7; i++) {
+			const date = new Date();
+			date.setDate(today.getDate() + i);
+			tempDates.push(date);
+		}
+		setDates(tempDates);
+	}, []);
+
+	const [selectedDate, setSelectedDate] = useState(new Date());
+
+	const handleDateClick = (date) => {
+		setSelectedDate(date);
+		console.log(date);
+	};
 
   return (
     <div className="px-[9.5vw]">
         <Navbar/>
         <div className='flex flex-col md:flex-row my-[80px] justify-between'>
             <div className='max-w-[400px] mb-[60px] md:mb-0 flex items-center'> 
-                <img className='rounded-[8px] mr-[20px] h-[100px]' src='https://upload.wikimedia.org/wikipedia/en/0/0b/FBAWTFT-poster.jpg'></img>
-                <h5 className='text-white text-[20px] font-bold'>Fantastic Beasts and Where to Find Them</h5>
+                <img className='rounded-[8px] mr-[20px] h-[100px]' src={showtime?.bannerUrl}></img>
+                <h5 className='text-white text-[20px] font-bold'>{showtime?.title}</h5>
             </div>
             <div className='flex'>
                 <div className='flex flex-col ss:flex-row items-start ss:items-center gap-[20px] ss:gap-0'>
@@ -45,57 +68,33 @@ const Showtime = () => {
                 <div className='mb-[60px]'>
                     <h6 className='text-white mb-[28px]'>Select Date</h6>
                     <div className='flex flex-wrap gap-[20px]'>
-                        <Date
-                            day="11"
-                            month="Mar"
-                            dayname="Mon"
-                        />
-                        <Date
-                            day="12"
-                            month="Mar"
-                            dayname="Tue"
-                            className='date-selected'
-                        />
-                        <Date
-                            day="13"
-                            month="Mar"
-                            dayname="Wed"
-                        />
-                        <Date
-                            day="14"
-                            month="Mar"
-                            dayname="Thu"
-                        />
-                        <Date
-                            day="15"
-                            month="Mar"
-                            dayname="Fri"
-                        />
-                        <Date
-                            day="16"
-                            month="Mar"
-                            dayname="Sat"
-                        />
+											{dates.map((date) => (
+												<DateComponent
+													key={date.getTime()}
+													date={date}
+													onClick={() => handleDateClick(date)}
+													className={selectedDate === date ? 'date-selected' : ''}
+												/>
+											))}
                     </div>
                 </div>
                 <div className='mb-[60px]'>
                     <h6 className='text-white mb-[28px]'>Select Time</h6>
-                    <div className='flex flex-wrap gap-[20px]'>
-                        <Time
-                            time="16:00"
-                            mode="4DX2D"
-                        />
-                        <Time
-                            time="15:00"
-                            mode="2D"
-                            className='time-selected'
-                        />
-                        <Time
-                            time="17:00"
-                            mode="3D MAX"
-                            
-                        />
-                    </div>
+										{selectedDate && (
+										<div className='flex flex-wrap gap-[20px]'>
+											{showtime?.showtimes
+												.filter((item) => {
+													const showtimeDateOnly = item?.dateTime.slice(0, 10);
+													const selectedDateOnly = selectedDate.toISOString().slice(0, 10);
+													return showtimeDateOnly === selectedDateOnly;
+												})
+												.map((item) => {
+													const [date, timeWithSeconds] = item?.dateTime.split('T');
+													const time = timeWithSeconds.slice(0, 5);
+													return <Time time={time} mode={item?.type} key={item?.dateTime} />;
+												})}
+										</div>
+									)}
                 </div>
                 <div className='mb-[60px]'>
                     <h6 className='text-white mb-[28px]'>Select Seats</h6>
