@@ -7,11 +7,13 @@ import Genre from '@/components/Genre';
 import Actor from '@/components/Actor';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import Link from 'next/link';
+import Footer from '@/components/Footer';
 
 const Movie = () => {
-  const router = useRouter();
-  const { movieId } = router.query;
-  const { data } = useMovie(movieId as string);
+	const router = useRouter();
+	const { movieId } = router.query;
+	const { data } = useMovie(movieId as string);
   const [randomIndex, setRandomIndex] = useState(null);
 
   useEffect(() => {
@@ -20,6 +22,8 @@ const Movie = () => {
       setRandomIndex(randomIndex);
     }
   }, [data]);
+
+
   
 
   return (
@@ -32,10 +36,13 @@ const Movie = () => {
 						<h1 className='text-[30px] ms:text-[36px] ss:text-[42px] sm:text-[46px] text-white mb-[24px]'>{data?.title}</h1>
 						<p className='text-text mb-[40px]'>{data?.description}</p>
 						<div className='flex flex-col ms:flex-row gap-[12px]'>
-							<Button 
-							style="primary"
-							label="Buy Tickets"
-							/>
+							<Link href="/reservation">
+								<Button 
+								style="primary"
+								label="Buy Tickets"
+								className="w-full ms:w-fit"
+								/>
+							</Link>
 							<div className='flex w-full ms:w-[initial] gap-[12px]'>
 								<Button 
 								style="secondary"
@@ -59,8 +66,17 @@ const Movie = () => {
 			<div className='w-full flex flex-col items-center mb-[40px] ss:mb-0 ss:w-2/6 ss:pr-[60px] m:pr-[110px]'>
 				<img className='rounded-[10px]' src={data?.bannerUrl}></img>
 				<div className='w-[100px] mt-[80px]'>
-					
-					
+					<CircularProgressbar styles={buildStyles({
+						// Rotation of path and trail, in number of turns (0-1)
+						
+						textSize: '27px',
+						pathTransitionDuration: 0.5,
+						pathColor: `#FF7430`,
+						textColor: '#ffffff',
+						trailColor: '#3B383D',
+						backgroundColor: '#3e98c7',
+						
+					})} className='font-montserrat font-bold' value={data?.rating} maxValue={10} text={`${data?.rating}`} />
 					<h6 className='text-white text-[20px] font-montserrat mt-[20px] text-center'>Rating</h6>
 					<p className='text-[12px] text-[#8B898C] text-center mt-[8px]'>IMDb certified ratings</p>
 				</div>
@@ -111,7 +127,7 @@ const Movie = () => {
 				
 				<div className='mb-[60px]'>
 					<h4 className='mb-[28px] text-white'>Gallery</h4>
-					<div className='grid grid-cols-4 gap-[28px]'>
+					<div className='grid grid-cols-2 md:grid-cols-4 gap-[28px]'>
 						{data?.galleryImages.map((image, index) =>(
 							<img className='rounded-[10px] aspect-video w-full object-cover' src={image} key={index}></img>
 						))}
@@ -119,6 +135,9 @@ const Movie = () => {
 				</div>
 
 			</div>
+		</div>
+		<div className='px-[9.5vw] mt-[150px]'>
+			<Footer/>
 		</div>
 		
 	</div>

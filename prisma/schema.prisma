@@ -21,6 +21,7 @@ model User {
   hashedPassword String
   favouriteMovies String[] @db.ObjectId
   type String @default("User")
+  tickets Ticket[]
 }
 
 model VerificationToken {
@@ -33,12 +34,12 @@ model VerificationToken {
 
 model Movie {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String @unique
-  description String
-  bannerUrl String
+  title String? @unique
+  description String?
+  bannerUrl String?
   rating String?
   trailer String?
-  storyline String
+  storyline String?
   genre String[]
   duration String
   releaseYear String
@@ -48,12 +49,15 @@ model Movie {
   actorImagesUrl String[]
   galleryImages String[]
   showtimes Showtime[]
+  tickets Ticket[]
 } 
 
 model Ticket {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  bannerUrl String
-  movieTitle String
+  user User @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+  movie Movie @relation(fields: [movieId], references: [id])
+  movieId String @db.ObjectId
   dateTimeOfCreation String
   seatNumber  String
   hallNumber String

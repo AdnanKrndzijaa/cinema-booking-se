@@ -2,8 +2,8 @@ import React from 'react'
 
 interface InputProps {
     option: string,
-    functionHandle: any,
-    selectedCheckboxes: any,
+    functionHandle?: any,
+    selectedCheckboxes?: any,
 }
 
 const Checkbox: React.FC<InputProps> = ({option,functionHandle,selectedCheckboxes}) => {

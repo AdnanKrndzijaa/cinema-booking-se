@@ -24,7 +24,14 @@ class Database {
       }
 
       const { movieId } = req.body;
+      console.log('Request Body:', req.body);
 
+      if (!movieId) {
+        res.status(400).json({ error: 'Movie ID is required' });
+        return;
+      }
+
+      // Check if the movie exists
       const existingMovie = await prismadb.movie.findUnique({
         where: {
           id: movieId,
@@ -36,6 +43,7 @@ class Database {
         return;
       }
 
+      // Delete the movie
       await prismadb.movie.delete({
         where: {
           id: movieId,
@@ -53,5 +61,9 @@ class Database {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const dbInstance = Database.getInstance();
 
-  await dbInstance.deleteMovie(req, res);
+  if (req.method === 'DELETE') {
+    await dbInstance.deleteMovie(req, res);
+  } else {
+    res.status(405).end(); // Method Not Allowed
+  }
 }
