@@ -1,29 +1,37 @@
+// Import the necessary modules
 import { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '@/lib/prismadb';
 
-class ShowtimeHandler {
-  private static instance: ShowtimeHandler;
+// Define a Database class
+class Database {
+  private static instance: Database | null = null;
 
   private constructor() {
     // Private constructor to prevent direct instantiation
   }
 
-  public static getInstance(): ShowtimeHandler {
-    if (!ShowtimeHandler.instance) {
-      ShowtimeHandler.instance = new ShowtimeHandler();
+  // Singleton pattern: Get an instance of the Database class
+  public static getInstance(): Database {
+    if (!Database.instance) {
+      Database.instance = new Database();
     }
-    return ShowtimeHandler.instance;
+
+    return Database.instance;
   }
 
-  public async handle(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  // Method to create a showtime in the database
+  public async createShowtime(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     try {
+      // Check the request method
       if (req.method !== 'POST') {
         res.status(405).end();
         return;
       }
 
+      // Destructure the request body to get showtime details
       const { movie, dateTime, type } = req.body;
 
+      // Create the showtime in the database
       const showtime = await prismadb.showtime.create({
         data: {
           movie,
@@ -32,15 +40,20 @@ class ShowtimeHandler {
         }
       });
 
+      // Send the created showtime as the response
       res.status(200).json(showtime);
     } catch (error) {
+      // Handle any errors that occur during the process
       res.status(400).json({ error: `Something went wrong: ${error}` });
     }
   }
 }
 
-const showtimeHandler = ShowtimeHandler.getInstance();
-
+// Usage in the handler function
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-  await showtimeHandler.handle(req, res);
+  // Get an instance of the Database class
+  const dbInstance = Database.getInstance();
+    
+  // Call the createShowtime method to handle the request
+  await dbInstance.createShowtime(req, res);
 }

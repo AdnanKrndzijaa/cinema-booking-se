@@ -1,75 +1,80 @@
+// Import the necessary modules
 import { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '@/lib/prismadb';
 
-class ShowtimeBuilder {
-  private showtimeId: string;
-  private movie: string;
-  private dateTime: string;
-  private type: string;
+// Define a Database class
+class Database {
+  private static instance: Database | null = null;
 
-  public withShowtimeId(showtimeId: string): ShowtimeBuilder {
-    this.showtimeId = showtimeId;
-    return this;
+  private constructor() {
+    // Private constructor to prevent direct instantiation
   }
 
-  public withMovie(movie: string): ShowtimeBuilder {
-    this.movie = movie;
-    return this;
-  }
-
-  public withDateTime(dateTime: string): ShowtimeBuilder {
-    this.dateTime = dateTime;
-    return this;
-  }
-
-  public withType(type: string): ShowtimeBuilder {
-    this.type = type;
-    return this;
-  }
-
-  public async updateShowtime(): Promise<any> {
-    const existingShowtime = await prismadb.showtime.findUnique({
-      where: {
-        id: this.showtimeId
-      }
-    });
-
-    if (!existingShowtime) {
-      throw new Error('Showtime not found');
+  // Singleton pattern: Get an instance of the Database class
+  public static getInstance(): Database {
+    if (!Database.instance) {
+      Database.instance = new Database();
     }
 
-    const updatedShowtime = await prismadb.showtime.update({
-      where: {
-        id: this.showtimeId
-      },
-      data: {
-        movie: this.movie,
-        dateTime: this.dateTime,
-        type: this.type
-      }
-    });
+    return Database.instance;
+  }
 
-    return updatedShowtime;
+  // Method to edit a showtime in the database
+  public async editShowtime(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+    try {
+      // Check the request method
+      if (req.method !== 'PUT') {
+        res.status(405).end();
+        return;
+      }
+
+      // Extract data from the request body
+      const { showtimeId, movie, dateTime, type } = req.body;
+
+      // Check if the showtime exists
+      const existingShowtime = await prismadb.showtime.findUnique({
+        where: {
+          id: showtimeId,
+        },
+      });
+
+      // Return error response if the showtime is not found
+      if (!existingShowtime) {
+        res.status(404).json({ error: 'Showtime not found' });
+        return;
+      }
+
+      // Update the showtime in the database
+      const updatedShowtime = await prismadb.showtime.update({
+        where: {
+          id: showtimeId,
+        },
+        data: {
+          movie,
+          dateTime,
+          type,
+        },
+      });
+
+      // Send success response with the updated showtime
+      res.status(200).json(updatedShowtime);
+    } catch (error) {
+      // Handle any errors that occur during the process
+      res.status(400).json({ error: `Something went wrong: ${error}` });
+    }
   }
 }
 
+// Usage in the handler function
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    if (req.method !== 'PUT') {
-      return res.status(405).end();
-    }
+  // Get an instance of the Database class
+  const dbInstance = Database.getInstance();
 
-    const { showtimeId, movie, dateTime, type } = req.body;
-
-    const updatedShowtime = await new ShowtimeBuilder()
-      .withShowtimeId(showtimeId)
-      .withMovie(movie)
-      .withDateTime(dateTime)
-      .withType(type)
-      .updateShowtime();
-
-    return res.status(200).json(updatedShowtime);
-  } catch (error) {
-    return res.status(400).json({ error: `Something went wrong: ${error}` });
+  // Check the request method
+  if (req.method === 'PUT') {
+    // Call the editShowtime method to handle the request
+    await dbInstance.editShowtime(req, res);
+  } else {
+    res.status(405).end();
   }
 }
