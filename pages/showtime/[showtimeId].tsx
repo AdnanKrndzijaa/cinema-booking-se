@@ -23,7 +23,7 @@ const Showtime = () => {
 	useEffect(() => {
 		const today = new Date(); // Get the current date
 		const tempDates = [];
-		for (let i = 0; i < 7; i++) {
+		for (let i = 0; i < 6; i++) {
 			const date = new Date();
 			date.setDate(today.getDate() + i);
 			tempDates.push(date);
@@ -68,33 +68,33 @@ const Showtime = () => {
                 <div className='mb-[60px]'>
                     <h6 className='text-white mb-[28px]'>Select Date</h6>
                     <div className='flex flex-wrap gap-[20px]'>
-											{dates.map((date) => (
-												<DateComponent
-													key={date.getTime()}
-													date={date}
-													onClick={() => handleDateClick(date)}
-													className={selectedDate === date ? 'date-selected' : ''}
-												/>
-											))}
+                    {dates.map((date, index) => (
+                        <DateComponent
+                            key={date.getTime()}
+                            date={date}
+                            onClick={() => handleDateClick(date)}
+                            className={`${selectedDate === date || (index === 0 && selectedDate.toDateString() === new Date().toDateString()) ? 'date-selected' : ''}`}
+                        />
+                        ))}
                     </div>
                 </div>
                 <div className='mb-[60px]'>
                     <h6 className='text-white mb-[28px]'>Select Time</h6>
-										{selectedDate && (
-										<div className='flex flex-wrap gap-[20px]'>
-											{showtime?.showtimes
-												.filter((item) => {
-													const showtimeDateOnly = item?.dateTime.slice(0, 10);
-													const selectedDateOnly = selectedDate.toISOString().slice(0, 10);
-													return showtimeDateOnly === selectedDateOnly;
-												})
-												.map((item) => {
-													const [date, timeWithSeconds] = item?.dateTime.split('T');
-													const time = timeWithSeconds.slice(0, 5);
-													return <Time time={time} mode={item?.type} key={item?.dateTime} />;
-												})}
-										</div>
-									)}
+                    {selectedDate && (
+                    <div className='flex flex-wrap gap-[20px]'>
+                        {showtime?.showtimes
+                            .filter((item) => {
+                                const showtimeDateOnly = item?.dateTime.slice(0, 10);
+                                const selectedDateOnly = selectedDate.toISOString().slice(0, 10);
+                                return showtimeDateOnly === selectedDateOnly;
+                            })
+                            .map((item) => {
+                                const [date, timeWithSeconds] = item?.dateTime.split('T');
+                                const time = timeWithSeconds.slice(0, 5);
+                                return <Time time={time} mode={item?.type} key={item?.dateTime} />;
+                            })}
+                    </div>
+                    )}
                 </div>
                 <div className='mb-[60px]'>
                     <h6 className='text-white mb-[28px]'>Select Seats</h6>
