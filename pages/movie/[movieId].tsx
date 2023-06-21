@@ -44,10 +44,11 @@ const Movie = () => {
 								/>
 							</div>
 							<div className='flex w-full ms:w-[initial] gap-[12px]'>
-								<a href={data?.trailer} target='_blank'>
+								<a className='w-full' href={data?.trailer} target='_blank'>
 									<Button 
 									style="secondary"
 									label="Watch Trailer"
+									className='w-full'
 									/>
 								</a>
 								<button className='flex w-[58px] secondary-button items-center justify-center border-[1px] rounded-[10px] aspect-square'>
@@ -66,7 +67,7 @@ const Movie = () => {
 		
 		<div className='flex flex-col ss:flex-row px-[9.5vw]'>
 			<div className='w-full flex flex-col items-center mb-[40px] ss:mb-0 ss:w-2/6 ss:pr-[60px] m:pr-[110px]'>
-				<img className='rounded-[10px]' src={data?.bannerUrl}></img>
+				<img className='rounded-[10px] w-[70%] md:w-full' src={data?.bannerUrl}></img>
 				<div className='w-[100px] mt-[80px]'>
 					<CircularProgressbar styles={buildStyles({
 						// Rotation of path and trail, in number of turns (0-1)
