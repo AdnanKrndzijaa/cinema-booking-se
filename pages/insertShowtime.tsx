@@ -1,17 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react';
 import Calendar from 'react-calendar';
+import axios from 'axios';
 import 'react-calendar/dist/Calendar.css';
 import Input from '@/components/Input';
+import router, { useRouter } from "next/router";
 import Button from '@/components/Button';
 import Link from 'next/link';
 
 const add_showtime = () => {
-	const [value, onChange] = useState(new Date());
 	const [selectMovie, setSelectMovie] = useState(false);
+	const [dateTime, setDateTime] = useState('');
+	const [type, setType] = useState('');
+	
+	const [value, onChange] = useState(new Date());
 
 	const handleSelect = () => {
 		setSelectMovie(!selectMovie);
 	};
+
+	const addShowtime = useCallback(async () => {
+		try {
+			await axios.post('/api/showtimes/insertShowtime', {
+				selectMovie,
+				dateTime,
+				type
+			});
+	
+			router.push('/admin_dashboard');
+	
+		} catch(error) {
+			console.log(error);
+		}
+	}, [selectMovie,
+		dateTime,
+	  type]); 
 
   return (
     <div className='min-h-[100vh] p-[50px] w-full bg-primary'>
@@ -184,15 +206,15 @@ const add_showtime = () => {
 							<div className='border-primaryvariant1 border-[1px] rounded-[10px] p-[28px]'>
 								<h5 className='text-white text-[20px] mb-[16px]'>Type</h5>
 								<p className='text-text mb-[28px]'>Set the movie format that will show at selected time and date.</p>
-								<label class="customRadio">
+								<label className="customRadio">
 									<input type="radio" name="radio"/>
 									3D
 								</label>
-								<label class="customRadio">
+								<label className="customRadio">
 									<input type="radio" name="radio" />
 									4DX2D
 								</label>
-								<label class="customRadio">
+								<label className="customRadio">
 									<input type="radio" name="radio" />
 									4D Max
 								</label>
@@ -202,8 +224,9 @@ const add_showtime = () => {
 							</div>
 							<div className='flex justify-end gap-[16px]'>
 								<Button style="secondary" label="Clear"/>
-								<Link href="/admin_dashboard">
-									<Button style="primary" label="Submit"/>
+								<Link href="/../adminDashboard">
+								<Button label="Submit" style="primary" clickFunction={addShowtime}/>
+
 								</Link>
 							</div>
 						</div>
