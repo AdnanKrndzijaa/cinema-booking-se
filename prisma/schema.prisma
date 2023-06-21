@@ -58,7 +58,7 @@ model Ticket {
   userId String @db.ObjectId
   movie Movie @relation(fields: [movieId], references: [id])
   movieId String @db.ObjectId
-  dateTimeOfCreation String
+  dateTime String
   seatNumber  String
   hallNumber String
   barcode String

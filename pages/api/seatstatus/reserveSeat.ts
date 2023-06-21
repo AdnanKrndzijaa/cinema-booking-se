@@ -20,7 +20,7 @@ class Database {
   }
 
   // Method to create a movie in the database
-  public async createMovie(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  public async createSeatStatus(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     try {
       // Check the request method
       if (req.method !== 'POST') {
@@ -74,5 +74,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const dbInstance = Database.getInstance();
   
   // Call the createMovie method to handle the request
-  await dbInstance.createMovie(req, res);
+  await dbInstance.createSeatStatus(req, res);
 }

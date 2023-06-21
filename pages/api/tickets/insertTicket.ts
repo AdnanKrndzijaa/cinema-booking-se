@@ -20,7 +20,7 @@ class Database {
   }
 
   // Method to create a movie in the database
-  public async createMovie(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  public async createTicket(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     try {
       // Check the request method
       if (req.method !== 'POST') {
@@ -30,16 +30,19 @@ class Database {
 
       // Destructure the request body to get movie details
       const {
+        userId,
         showtimeId,
-        seatRow,
-        seatNumber
+        dateTime,
+        seatNumber,
+        barcode,
       } = req.body;
 
-      const seatIsReserved = await prismadb.seatStatus.findFirst({
+      const seatIsReserved = await prismadb.ticket.findFirst({
         where: {
-          showtimeId: showtimeId,
-          seatRow: seatRow,
+          movieId: showtimeId,
+          dateTime: dateTime,
           seatNumber: seatNumber,
+          userId: userId
         },
       });
       
@@ -50,12 +53,14 @@ class Database {
       }
       
 
-      // Create the movie in the database
-      const seatReservations = await prismadb.seatStatus.create({
+      const seatReservations = await prismadb.ticket.create({
         data: {
-          showtimeId,
-          seatRow,
-          seatNumber
+          userId: userId, // Replace with the actual user ID
+          movieId: showtimeId, // Replace with the actual movie ID
+          dateTime: dateTime, // Replace with the actual date and time of creation
+          seatNumber: seatNumber, // Replace with the actual seat number
+          hallNumber: "Hall 1", // Assuming the hall number is always 1
+          barcode: barcode, // Replace with the actual barcode
         },
       });
 
@@ -74,5 +79,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const dbInstance = Database.getInstance();
   
   // Call the createMovie method to handle the request
-  await dbInstance.createMovie(req, res);
+  await dbInstance.createTicket(req, res);
 }
