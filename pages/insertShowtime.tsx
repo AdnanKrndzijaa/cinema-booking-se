@@ -245,7 +245,7 @@ const add_showtime = () => {
 										09:30
 									</label>
 									</div>
-									<Input className='w-[300px]' label="Custom Time" id="custom_time" placeholder='Ex. 12:15'/>
+									<Input value='' className='w-[300px]' label="Custom Time" id="custom_time" placeholder='Ex. 12:15'/>
 								</div>
 							</div>
 							<div className='border-primaryvariant1 border-[1px] rounded-[10px] p-[28px]'>
