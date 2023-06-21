@@ -12,10 +12,5 @@
 - the ```/tickets``` endpoint - for a list of all tickets booked by the user
 - the ```/settings``` endpoint - for an option to edit peronal data
 - the ```/tickets``` endpoint - for a list of all tickets booked by the user
-
 - the ```/adminDashboard``` endpoint - admin panel with full control of all data
-- the ```/insertMovie``` endpoint - for adding new movie to the db 
-- the ```/editMovie``` endpoint - for editing a movie 
-- the ```/insertShowtime``` endpoint - for adding new showtime to the db 
-- the ```/editShowtime``` endpoint - for editing a showtime
 
