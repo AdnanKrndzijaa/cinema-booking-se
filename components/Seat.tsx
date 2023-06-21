@@ -2,16 +2,21 @@ import React, { useState } from 'react'
 
 interface Props {
     row:string;
-    number: string;
+    number: number;
     status?: string;
     className?: string;
+    onClick?: () => void;
 }
 
-const Seat: React.FC<Props> = ({row,number,status="free",className}) => {
-   const [isClicked, setIsClicked] = useState(false);
+const Seat: React.FC<Props> = ({row,number,status="free",className, onClick}) => {
+
+  const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {
-    setIsClicked(!isClicked);
+    setIsClicked((prevIsClicked) => !prevIsClicked);
+    if (onClick) {
+      onClick();
+    }
   };
   
   return (

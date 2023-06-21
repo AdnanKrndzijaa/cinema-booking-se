@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Navbar from '@/components/Navbar'
 import Button from '@/components/Button'
 import Footer from '@/components/Footer'
@@ -10,12 +10,13 @@ import useShowtime from '@/hooks/useShowtime'
 import { useRouter } from 'next/router'
 import DateComponent from '@/components/DateComponent'
 import useShowtimeSeat from '@/hooks/useShowtimeSeat'
+import axios from 'axios';
 
 const Showtime = () => {
 	const router = useRouter();
 	const { showtimeId } = router.query;
 	const { data: showtime } = useShowtime(showtimeId as string);
-	const showtimesArray = showtime?.showtimes ?? [];
+	const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   
 	const [currentTime, setCurrentTime] = useState<string>('');
 
@@ -55,6 +56,7 @@ const Showtime = () => {
 	const handleDateClick = (date) => {
 		setSelectedDate(date);
 		setShowtimeIdForSeatSelection("");
+		setSelectedSeats([]);
 		console.log(date);
 	};
 
@@ -62,9 +64,18 @@ const Showtime = () => {
 		setShowtimeIdForSeatSelection((prevShowtimeId) => {
 			return prevShowtimeId === newShowtimeId ? "" : newShowtimeId;
 		});
+		setSelectedSeats([]);
 	};
 
 	const { data: showtimeData } = useShowtimeSeat(showtimeIdForSeatSelection);
+
+	/* SEATS RESERVATION */
+
+
+
+
+	
+	const isSelected = (seat: string) => selectedSeats.includes(seat);
 
 	/* GENERATING SEATS */
 
@@ -77,12 +88,28 @@ const Showtime = () => {
 	
 		for (let number = 1; number <= 6; number++) {
 			const seatData = reservedSeats.find(
-				(seat) => seat.seatRow === 'A' && seat.seatNumber.toString() === number.toString()
+				(seat) => seat.seatRow === 'A' && seat.seatNumber === number
 			);
 			const status = seatData ? 'reserved' : undefined;
 	
+			const handleSeatClick = (row: string, number: number) => {
+				const seat = `${row}-${number}`;
+			
+				if (isSelected(seat)) {
+					setSelectedSeats((prevSelectedSeats) => prevSelectedSeats.filter((selectedSeat) => selectedSeat !== seat));
+				} else {
+					setSelectedSeats((prevSelectedSeats) => [...prevSelectedSeats, seat]);
+				}
+			};
+	
 			firstRowSeats.push(
-				<Seat key={`A-${number}`} row="A" number={number.toString()} status={status} />
+				<Seat
+					key={`A-${number}`}
+					row="A"
+					number={number}
+					status={status}
+					onClick={() => handleSeatClick('A', number)}
+				/>
 			);
 		}
 	
@@ -102,12 +129,29 @@ const Showtime = () => {
 	
 			for (let number = 1; number <= 10; number++) {
 				const seatData = reservedSeats.find(
-					(seat) => seat.seatRow === row && seat.seatNumber.toString() === number.toString()
+					(seat) => seat.seatRow === row && seat.seatNumber === number
 				);
 				const status = seatData ? 'reserved' : undefined;
 	
+				const handleSeatClick = (row: string, number: number) => {
+					const seat = `${row}-${number}`;
+				
+					if (isSelected(seat)) {
+						setSelectedSeats((prevSelectedSeats) => prevSelectedSeats.filter((selectedSeat) => selectedSeat !== seat));
+					} else {
+						setSelectedSeats((prevSelectedSeats) => [...prevSelectedSeats, seat]);
+					}
+		
+				};
+	
 				rowSeats.push(
-					<Seat key={`${row}-${number}`} row={row} number={number.toString()} status={status} />
+					<Seat
+						key={`${row}-${number}`}
+						row={row}
+						number={number}
+						status={status}
+						onClick={() => handleSeatClick(row, number)}
+					/>
 				);
 			}
 	
@@ -125,8 +169,49 @@ const Showtime = () => {
 	
 	useEffect(() => {
     generateSeats();
+		console.log(selectedSeats)
   }, [showtimeData]);
+
+	/* RESERVE SEATS */
+
+	const addSeat = useCallback(
+		async (seatData) => {
+			try {
+				await axios.post('/api/seatstatus/reserveSeat', seatData);
+				// Handle successful insertion, e.g., show a success message or update state
 	
+			} catch (error) {
+				console.log(error);
+				// Handle error, e.g., show an error message or perform additional error handling
+			}
+		},
+		[]
+	);
+
+	const addSelectedSeats = async () => {
+		try {
+			for (const seat of selectedSeats) {
+				const [row, number] = seat.split('-');
+				const seatData = {
+					showtimeId: showtimeIdForSeatSelection, // Replace with the actual showtime ID
+					seatRow: row,
+					seatNumber: parseInt(number, 10)
+				};
+		
+				await addSeat(seatData);
+			}
+	
+			// Clear the selected seats after successful insertion
+			setSelectedSeats([]);
+	
+			// Redirect to a specific page, e.g., after successful insertion
+			router.push('/dashboard');
+		} catch (error) {
+			console.log(error);
+			// Handle error, e.g., show an error message or perform additional error handling
+		}
+	};
+
 
   return (
     <div className="px-[9.5vw]">
@@ -143,11 +228,7 @@ const Showtime = () => {
                     </div>
                     <div className='w-[30px] h-[1px] mx-[12px] bg-primaryvariant1 hidden ss:block'></div>
                     <div className='flex'>
-                        <div className='bg-primaryvariant1 flex w-[30px] h-[30px] rounded-full items-center justify-center text-[14px] text-white'>2</div><span className='text-[16px] ml-[12px] text-white'>Payment</span>
-                    </div>
-                    <div className='w-[30px] h-[1px] mx-[12px] bg-primaryvariant1 hidden ss:block'></div>
-                    <div className='flex'>
-                        <div className='bg-primaryvariant1 flex w-[30px] h-[30px] rounded-full items-center justify-center text-[14px] text-white'>3</div><span className='text-[16px] ml-[12px] text-white'>Get Tickets</span>
+                        <div className='bg-primaryvariant1 flex w-[30px] h-[30px] rounded-full items-center justify-center text-[14px] text-white'>2</div><span className='text-[16px] ml-[12px] text-white'>Get Tickets</span>
                     </div>
                 </div>
             </div>
@@ -265,35 +346,25 @@ const Showtime = () => {
                 <div>
                     <h6 className='mb-[28px] text-white'>Invoice</h6>
                     <div className='p-[28px] invoice'>
-                        <div className='flex justify-between selected-seat'>
-                            <p>Seat B4</p>
-                            <p>$15</p>
-                        </div>
-                        <div className='flex justify-between selected-seat'>
-                            <p>Seat B4</p>
-                            <p>$15</p>
-                        </div>
-                        <div className='flex justify-between selected-seat'>
-                            <p>Seat B4</p>
-                            <p>$15</p>
-                        </div>
-                        <div className='flex justify-between selected-seat'>
-                            <p>Seat B4</p>
-                            <p>$15</p>
-                        </div>
-                        <div className='w-full h-[1px] bg-[rgba(255,255,255,0.05)] my-[28px]'></div>
-                        <div className='flex justify-between total'>
-                            <p>TOTAL</p>
-                            <p>$60</p>
-                        </div>
-                        <Link href="/get_tickets">
-                            <Button
-                                style="primary"
-                                label="checkout"
-                                className="w-full"
-                            />
-                        </Link>
-                    </div>
+											{selectedSeats.length > 0 ? (
+												selectedSeats.map((seat, index) => (
+													<div className='flex justify-between selected-seat' key={index}>
+														<p>{`Seat ${seat}`}</p>
+														<p>$15</p>
+													</div>
+												))
+											) : (
+												<p>Checkout is empty</p>
+											)}
+											<div className='w-full h-[1px] bg-[rgba(255,255,255,0.05)] my-[28px]'></div>
+											<div className='flex justify-between total'>
+												<p>TOTAL</p>
+												<p>${selectedSeats.length * 15}</p>
+											</div>
+											<div onClick={addSelectedSeats}>
+												<Button style='primary' label='checkout' className='w-full' />
+											</div>
+										</div>
                 </div>
             </div>
         </div>
