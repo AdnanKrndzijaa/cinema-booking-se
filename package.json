@@ -28,10 +28,6 @@
     "postcss": "8.4.21",
     "react": "18.2.0",
     "react-barcode": "^1.4.6",
-<<<<<<< HEAD
-=======
-    "react-calendar": "^4.3.0",
->>>>>>> 0fb2c7eefcec0b457e691951d01e48d530227c22
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "18.2.0",
     "swr": "^2.1.5",
