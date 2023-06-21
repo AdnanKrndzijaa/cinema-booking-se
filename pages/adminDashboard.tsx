@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import axios from 'axios';
 import { useCallback, useState } from "react";
-import Search from '@/components/Search'
 import Button from '@/components/Button'
 import ConfirmationDialog from '@/components/ConfirmationDialog';
 import Link from 'next/dist/client/link';
@@ -224,6 +223,10 @@ const admin_dashboard = () => {
             <h2 className='text-[35px] text-white font-montserrat mb-[20px]'>Showtimes</h2>
             <h4 className='text-[20px] text-white font-montserrat mb-[80px]'>{showtimes?.length} Showtimes</h4>
             <div className='flex justify-between'>
+<<<<<<< HEAD
+=======
+              
+>>>>>>> 0fb2c7eefcec0b457e691951d01e48d530227c22
               <Link href="/add_showtime">
                 <Button
                   style="primary"
@@ -323,6 +326,10 @@ const admin_dashboard = () => {
             <h2 className='text-[35px] text-white font-montserrat mb-[20px]'>Movies</h2>
             <h4 className='text-[20px] text-white font-montserrat mb-[80px]'>{movies?.length} Movies</h4>
             <div className='flex justify-between'>
+<<<<<<< HEAD
+=======
+              
+>>>>>>> 0fb2c7eefcec0b457e691951d01e48d530227c22
               <Link href="/insert-movie">
                 <Button
                   style="primary"
@@ -360,6 +367,10 @@ const admin_dashboard = () => {
           <div className='mb-[60px]'>
             <h2 className='text-[35px] text-white font-montserrat mb-[20px]'>Users</h2>
             <h4 className='text-[20px] text-white font-montserrat mb-[80px]'>{users?.length} Users</h4>
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 0fb2c7eefcec0b457e691951d01e48d530227c22
           </div>
           <table className="table-auto w-full border-primaryvariant1 border-[1px] rounded-[10px] text-left mb-[50px]">
             <thead className='p-[30px] rounded-[10px] text-white bg-primaryvariant2'>

@@ -2,6 +2,70 @@ import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '@/lib/prismadb';
 
+class RegistrationRequestBuilder {
+  private firstName: string;
+  private lastName: string;
+  private email: string;
+  private password: string;
+
+  constructor() {
+    this.firstName = '';
+    this.lastName = '';
+    this.email = '';
+    this.password = '';
+  }
+
+  setFirstName(firstName: string): RegistrationRequestBuilder {
+    this.firstName = firstName;
+    return this;
+  }
+
+  setLastName(lastName: string): RegistrationRequestBuilder {
+    this.lastName = lastName;
+    return this;
+  }
+
+  setEmail(email: string): RegistrationRequestBuilder {
+    this.email = email;
+    return this;
+  }
+
+  setPassword(password: string): RegistrationRequestBuilder {
+    this.password = password;
+    return this;
+  }
+
+  async build(): Promise<void> {
+    try {
+      const existingUser = await prismadb.user.findUnique({
+        where: {
+          email: this.email,
+        },
+      });
+
+      if (existingUser) {
+        throw new Error('Email taken');
+      }
+
+      const hashedPassword = await bcrypt.hash(this.password, 12);
+
+      const user = await prismadb.user.create({
+        data: {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          hashedPassword,
+        },
+      });
+
+      // Handle the successful registration response
+      console.log(user);
+    } catch (error) {
+      throw new Error(`Something went wrong: ${error}`);
+    }
+  }
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method !== 'POST') {
@@ -21,30 +85,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'Invalid email format' });
     }
 
-    
-    const existingUser = await prismadb.user.findUnique({
-      where: {
-        email
-      }
-    })
+    // Use the builder to construct the registration request
+    await new RegistrationRequestBuilder()
+      .setFirstName(firstName)
+      .setLastName(lastName)
+      .setEmail(email)
+      .setPassword(password)
+      .build();
 
-    if (existingUser) {
-      return res.status(422).json({ error: 'Email taken' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    const user = await prismadb.user.create({
-      data: {
-        firstName,
-        lastName,
-        email,
-        hashedPassword,
-      }
-    })
-
-    return res.status(200).json(user);
+    return res.status(200).json({ success: true });
   } catch (error) {
-    return res.status(400).json({ error: `Something went wrong: ${error}` });
+    return res.status(400).json({ error: `Something went wrong: ${error.message}` });
   }
 }
