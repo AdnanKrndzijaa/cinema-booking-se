@@ -6,6 +6,7 @@ import Input from '@/components/Input';
 import router, { useRouter } from "next/router";
 import Button from '@/components/Button';
 import Link from 'next/link';
+import { Value } from '@prisma/client/runtime';
 
 const add_showtime = () => {
 	const [movies, setMovies] = useState([]);
@@ -112,7 +113,7 @@ const add_showtime = () => {
 							<div className='border-primaryvariant1 border-[1px] rounded-[10px] p-[28px]'>
 								<h5 className='text-white text-[20px] mb-[16px]'>Date</h5>
 								<p className='text-text mb-[28px]'>Pick the date on which the selected movie will be shown.</p>
-								<Calendar onChange={onChange} value={value} />
+								<Calendar onChange={(value: Value) => onChange(value)} value={value} />
 							</div>
 							<div className='border-primaryvariant1 border-[1px] rounded-[10px] p-[28px]'>
 								<h5 className='text-white text-[20px] mb-[16px]'>Time</h5>
