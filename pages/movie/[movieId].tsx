@@ -36,13 +36,13 @@ const Movie = () => {
 						<h1 className='text-[30px] ms:text-[36px] ss:text-[42px] sm:text-[46px] text-white mb-[24px]'>{data?.title}</h1>
 						<p className='text-text mb-[40px]'>{data?.description}</p>
 						<div className='flex flex-col ms:flex-row gap-[12px]'>
-							<Link href="/reservation">
+							<div onClick={() => router.push(`/showtime/${movieId}`)}>
 								<Button 
 								style="primary"
 								label="Buy Tickets"
 								className="w-full ms:w-fit"
 								/>
-							</Link>
+							</div>
 							<div className='flex w-full ms:w-[initial] gap-[12px]'>
 								<Button 
 								style="secondary"

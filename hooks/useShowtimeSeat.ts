@@ -2,8 +2,8 @@ import useSWR from 'swr';
 import fetcher from '@/lib/fetcher';
 
 
-const useShowtime = (id?: String) => {
-  const { data, error, isLoading } = useSWR(id ? `/api/movies/${id}` : null, fetcher, {
+const useShowtimeSeat = (showtimeId) => {
+    const { data, error, isLoading } = useSWR(`/api/showtimes/showtime?showtimeId=${showtimeId}`, fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
@@ -16,4 +16,4 @@ const useShowtime = (id?: String) => {
   }
 };
 
-export default useShowtime;
+export default useShowtimeSeat;

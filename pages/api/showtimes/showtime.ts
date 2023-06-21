@@ -7,29 +7,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        const { movieId } = req.query;
+        const { showtimeId } = req.query;
 
-        if (typeof movieId !== 'string') {
-        throw new Error('Invalid Movie ID');
+        if (typeof showtimeId !== 'string') {
+        throw new Error('Invalid Showtime ID');
         }
 
-        if (!movieId) {
-        throw new Error('Missing Movie ID');
+        if (!showtimeId) {
+        throw new Error('Missing Showtime ID');
         }
 
-        const showtimes = await prismadb.movie.findUnique({
+        const showtimes = await prismadb.showtime.findUnique({
           where: {
-            id: movieId
+            id: showtimeId
           },
           include: {
-            showtimes: {
+            seatStatus: {
               select: {
                 id: true,
-                dateTime: true,
-                type: true
-              },
-              orderBy: {
-                dateTime: 'asc'
+                seatRow: true,
+                seatNumber: true
               }
             }
             

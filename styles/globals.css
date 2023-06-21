@@ -286,14 +286,7 @@ tr:last-child > td:last-child {
     font-weight: bold;
 }
 
-.time {
-    width: 90px;
-}
 
-.date {
-    width: 90px;
-    height: 130px;
-}
 
 .date:hover, .time:hover {
     cursor: pointer;

@@ -70,6 +70,14 @@ model Showtime {
   movieId String @db.ObjectId
   dateTime DateTime
   type String
+  seatStatus SeatStatus[]
 }
 
+model SeatStatus {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  showtime  Showtime  @relation(fields: [showtimeId], references: [id])
+  showtimeId String   @db.ObjectId
+  seatRow   String
+  seatNumber Int
+}
 
