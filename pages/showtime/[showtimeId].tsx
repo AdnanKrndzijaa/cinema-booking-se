@@ -11,6 +11,8 @@ import { useRouter } from 'next/router'
 import DateComponent from '@/components/DateComponent'
 import useShowtimeSeat from '@/hooks/useShowtimeSeat'
 import axios from 'axios';
+import { getSession } from "next-auth/react"
+import useCurrentUser from '@/hooks/useCurrentUser'
 
 const Showtime = () => {
 	const router = useRouter();
@@ -19,6 +21,10 @@ const Showtime = () => {
 	const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   
 	const [currentTime, setCurrentTime] = useState<string>('');
+
+	const { data: currentUser, error, mutate } = useCurrentUser();
+	const userId = currentUser?.id;
+
 
   useEffect(() => {
 		const interval = setInterval(() => {
@@ -188,6 +194,28 @@ const Showtime = () => {
 		[]
 	);
 
+	const addTicket = async (ticketData) => {
+		try {
+		await axios.post('/api/tickets/insertTicket', ticketData);
+		// Handle successful insertion, e.g., show a success message or update state
+	} catch (error) {
+		console.log(error);
+		// Handle error, e.g., show an error message or perform additional error handling
+	}
+	};
+
+	const generateBarcode = () => {
+		const barcodeLength = 16;
+		let barcode = '';
+	  
+		for (let i = 0; i < barcodeLength; i++) {
+		  const randomDigit = Math.floor(Math.random() * 10); // Generate a random digit between 0 and 9
+		  barcode += randomDigit;
+		}
+	  
+		return barcode;
+	  };
+
 	const addSelectedSeats = async () => {
 		try {
 			for (const seat of selectedSeats) {
@@ -197,6 +225,16 @@ const Showtime = () => {
 					seatRow: row,
 					seatNumber: parseInt(number, 10)
 				};
+
+				const ticketData = {
+					userId: userId, // Replace with the actual user ID
+					showtimeId: showtimeId, // Replace with the actual movie ID
+					dateTime: new Date().toISOString(),
+					seatNumber: seat,
+					barcode: generateBarcode(), // Generate a unique barcode using uuidv4()
+				};
+	
+				await addTicket(ticketData);
 		
 				await addSeat(seatData);
 			}
