@@ -51,6 +51,10 @@ const add_showtime = () => {
 		dateTime,
 	  type]); 
 
+	function handleCalendarChange(value: Date): void {
+		throw new Error('Function not implemented.');
+	}
+
   return (
     <div className='min-h-[100vh] p-[50px] w-full bg-primary'>
         <h2 className='text-white text-[35px] mb-[60px]'>Add New Showtime</h2>
@@ -113,7 +117,7 @@ const add_showtime = () => {
 							<div className='border-primaryvariant1 border-[1px] rounded-[10px] p-[28px]'>
 								<h5 className='text-white text-[20px] mb-[16px]'>Date</h5>
 								<p className='text-text mb-[28px]'>Pick the date on which the selected movie will be shown.</p>
-								<Calendar onChange={(value: Value) => onChange(value)} value={value} />
+								<Calendar onChange={(value: Date) => handleCalendarChange(value)} />
 							</div>
 							<div className='border-primaryvariant1 border-[1px] rounded-[10px] p-[28px]'>
 								<h5 className='text-white text-[20px] mb-[16px]'>Time</h5>
