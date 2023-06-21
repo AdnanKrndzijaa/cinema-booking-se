@@ -6,8 +6,16 @@
 
 
 ### In this release, the following features are available:
-- the ```/dashboard``` endpoint - for listing all available movies 
+- the ```/``` or ```/dashboard``` endpoint - for a list of all available movies 
 - the ```/auth``` endpoint - for login and registration (both forms)
-- the ```/insert-movie``` endpoint - for adding new movie to the db (currently this option is available for everyone, but there will be some kind of restriction in future releases) 
-- Logout option
+- the ```/reservation``` endpoint - for reservation (choosing available date, time and seat in hall)
+- the ```/tickets``` endpoint - for a list of all tickets booked by the user
+- the ```/settings``` endpoint - for an option to edit peronal data
+- the ```/tickets``` endpoint - for a list of all tickets booked by the user
+
+- the ```/adminDashboard``` endpoint - admin panel with full control of all data
+- the ```/insertMovie``` endpoint - for adding new movie to the db 
+- the ```/editMovie``` endpoint - for editing a movie 
+- the ```/insertShowtime``` endpoint - for adding new showtime to the db 
+- the ```/editShowtime``` endpoint - for editing a showtime
 
