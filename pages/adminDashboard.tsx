@@ -223,10 +223,6 @@ const admin_dashboard = () => {
             <h2 className='text-[35px] text-white font-montserrat mb-[20px]'>Showtimes</h2>
             <h4 className='text-[20px] text-white font-montserrat mb-[80px]'>{showtimes?.length} Showtimes</h4>
             <div className='flex justify-between'>
-<<<<<<< HEAD
-=======
-              
->>>>>>> 0fb2c7eefcec0b457e691951d01e48d530227c22
               <Link href="/add_showtime">
                 <Button
                   style="primary"
