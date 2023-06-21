@@ -1,6 +1,7 @@
 import React from 'react'
 import Barcode from 'react-barcode';
 
+
 interface Props {
     movieName: string;
     movieImage: string;

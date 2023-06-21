@@ -8,21 +8,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        const { ticketId } = req.query;
+        const { userId } = req.query;
 
         // Check if the ticketId is "String" type
-        if (typeof ticketId !== 'string') {
+        if (typeof userId !== 'string') {
         throw new Error('Invalid Id');
         }
 
-        if (!ticketId) {
+        if (!userId) {
         throw new Error('Missing Id');
         }
 
-        const tickets = await prismadb.ticket.findUnique({
-        where: {
-            id: ticketId
-        }
+        const tickets = await prismadb.ticket.findMany({
+            where: {
+                userId: userId
+            },
+            include: {
+                movie: {
+                  select: {
+                    title: true,
+                    bannerUrl: true,
+                  },
+                },
+              }
         });
 
         return res.status(200).json(tickets); // Return the user as JSON response

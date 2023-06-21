@@ -10,6 +10,27 @@ import useMovieList from '@/hooks/useMovieList';
 import useUsersList from '@/hooks/useUsersList';
 import useShowtimeList from '@/hooks/useShowtimeList';
 
+import { NextPageContext } from "next";
+import { getSession, useSession } from "next-auth/react";
+import useCurrentUser from '@/hooks/useCurrentUser'
+
+export async function getServerSideProps(context: NextPageContext) {
+	const session = await getSession(context);
+  
+	if (!session) {
+	  return {
+		redirect: {
+		  destination: '/auth',
+		  permanent: false,
+		}
+	  }
+	}
+  
+	return {
+	  props: {}
+	}
+  }
+
 const admin_dashboard = () => {
   const {data: movies = []} = useMovieList();
   const {data: users = []} = useUsersList();
@@ -203,12 +224,6 @@ const admin_dashboard = () => {
             <h2 className='text-[35px] text-white font-montserrat mb-[20px]'>Showtimes</h2>
             <h4 className='text-[20px] text-white font-montserrat mb-[80px]'>{showtimes?.length} Showtimes</h4>
             <div className='flex justify-between'>
-              <div>
-                <Search
-                width = "300px"
-                placeholder = "Enter name of movie"
-                />
-              </div>
               <Link href="/add_showtime">
                 <Button
                   style="primary"
@@ -293,7 +308,7 @@ const admin_dashboard = () => {
                   </td>
                   <td>
                     <div className='flex gap-[8px]'>
-                      <button className='bg-white text-primary p-[8px_20px] rounded-[5px] uppercase'>Edit</button>
+                      
                       <button onClick={() => handleShowConfirmationShowtime(showtime?.id)} className='bg-[rgba(249,119,55,0.14)] border-accent border-[1px] text-white p-[8px_20px] rounded-[5px] uppercase'>Delete</button>
                     </div>
                   </td>
@@ -308,11 +323,6 @@ const admin_dashboard = () => {
             <h2 className='text-[35px] text-white font-montserrat mb-[20px]'>Movies</h2>
             <h4 className='text-[20px] text-white font-montserrat mb-[80px]'>{movies?.length} Movies</h4>
             <div className='flex justify-between'>
-              <div>
-                <Search
-                placeholder= "Enter name of movie"
-                />
-              </div>
               <Link href="/insert-movie">
                 <Button
                   style="primary"
@@ -329,11 +339,7 @@ const admin_dashboard = () => {
                   
                   <div className='single-movie relative'>
                     <div className='hidden gap-[10px] absolute single-movie-admin-commands z-10 top-[20px] right-[20px]'>
-                      <div className='flex items-center justify-center w-[34px] h-[34px] rounded-[5px] bg-white shadow-[0_0_20px_rgba(0,0,0,0.5)]'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15.998" height="16" viewBox="0 0 15.998 16">
-                          <path id="interface-edit-write-1" d="M13.452.131a1.739,1.739,0,0,0-.812.343c-.081.061.183-.2-4.7,4.665C5.557,7.517,4.737,8.338,4.716,8.37a.544.544,0,0,0-.074.152c-.008.025-.144.833-.3,1.8a11.3,11.3,0,0,0-.287,1.944.542.542,0,0,0,.168.319.56.56,0,0,0,.443.157c.111-.012,3.506-.627,3.561-.644a.718.718,0,0,0,.106-.046,1.535,1.535,0,0,0,.286-.26c.419-.416,7.551-7.571,7.586-7.611a1.748,1.748,0,0,0,.409-.912,3.592,3.592,0,0,0,0-.434,1.746,1.746,0,0,0-.369-.863C16.164,1.869,14.869.574,14.771.5a1.746,1.746,0,0,0-.863-.369,3.558,3.558,0,0,0-.456,0m.122,1.14a.639.639,0,0,0-.2.083c-.036.024-.22.2-.808.79C7.647,7.049,5.723,8.971,5.72,8.982c-.008.035-.407,2.476-.405,2.477s.533-.094,1.183-.211l1.224-.22.043-.007,3.026-3.035,3.795-3.806c.578-.58.776-.782.8-.816a.577.577,0,0,0,.094-.312.568.568,0,0,0-.1-.332c-.024-.037-1.181-1.2-1.3-1.305a.591.591,0,0,0-.294-.147.742.742,0,0,0-.214,0M1.134,14.981a.577.577,0,0,0-.5.408.419.419,0,0,0-.018.16.459.459,0,0,0,.039.224.636.636,0,0,0,.2.244.659.659,0,0,0,.176.087l.047.015,6.365,0c5.722,0,6.371,0,6.423-.008a.55.55,0,0,0,.273-.137.584.584,0,0,0,.169-.266.416.416,0,0,0,.017-.157.491.491,0,0,0-.014-.15.6.6,0,0,0-.2-.3.542.542,0,0,0-.291-.12c-.053-.006-12.612-.008-12.689,0" transform="translate(-0.62 -0.122)" fill="#1b181d" fill-rule="evenodd"/>
-                        </svg>
-                      </div>
+                      
                       <div onClick={() => handleShowConfirmationMovie(movie?.id)} className='flex items-center justify-center w-[34px] h-[34px] rounded-[5px] bg-accent shadow-[0_0_20px_rgba(0,0,0,0.5)]'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="14.853" height="16" viewBox="0 0 14.853 16">
                           <path id="interface-delete-bin-1" d="M94.869.054a1.761,1.761,0,0,0-.71.332,2.206,2.206,0,0,0-.3.309,1.741,1.741,0,0,0-.333.789,8.956,8.956,0,0,0-.016,1.036l0,.952-1.749,0-1.749,0-.054.018a.575.575,0,0,0-.247.159.551.551,0,0,0-.138.246.706.706,0,0,0,0,.288.551.551,0,0,0,.138.246.536.536,0,0,0,.3.171c.071.014,13.871.014,13.941,0a.536.536,0,0,0,.3-.171.507.507,0,0,0,.1-.148.484.484,0,0,0,.05-.242.477.477,0,0,0-.014-.144.59.59,0,0,0-.385-.4l-.054-.018-1.793,0-1.793,0,0-.942c0-.851,0-.949-.013-1.016a1.7,1.7,0,0,0-.179-.567A1.684,1.684,0,0,0,99.41.2a1.492,1.492,0,0,0-.3-.118A9.945,9.945,0,0,0,96.93.042c-1.9,0-2.01,0-2.062.012m.266,1.114a.545.545,0,0,0-.306.153.553.553,0,0,0-.125.174c-.052.112-.048.018-.05,1.053l0,.923h4.57l0-.917,0-.917L99.2,1.587a.594.594,0,0,0-.408-.408l-.051-.014H96.958c-.989,0-1.8,0-1.824,0m-3.409,4.6a.536.536,0,0,0-.278.146.561.561,0,0,0-.182.41c0,.024.259,2.116.576,4.65.608,4.862.582,4.667.625,4.752a.587.587,0,0,0,.4.308c.048.009.443.01,4.11.01s4.061,0,4.11-.01a.59.59,0,0,0,.4-.3c.045-.089.016.128.627-4.755.317-2.534.576-4.626.576-4.65a.561.561,0,0,0-.182-.41.54.54,0,0,0-.424-.153.452.452,0,0,0-.2.046.573.573,0,0,0-.324.394c-.006.026-.252,1.985-.548,4.352s-.539,4.313-.541,4.325l0,.021H93.487l0-.021c0-.011-.245-1.958-.541-4.325S92.4,6.224,92.394,6.2A.573.573,0,0,0,92.07,5.8a.64.64,0,0,0-.085-.032.867.867,0,0,0-.26-.006" transform="translate(-89.554 -0.041)" fill="#fff" fill-rule="evenodd"/>
@@ -354,12 +360,6 @@ const admin_dashboard = () => {
           <div className='mb-[60px]'>
             <h2 className='text-[35px] text-white font-montserrat mb-[20px]'>Users</h2>
             <h4 className='text-[20px] text-white font-montserrat mb-[80px]'>{users?.length} Users</h4>
-            <div className='flex'>
-              <Search
-                  width = "300px"
-                  placeholder = "Search"
-              />
-            </div>
           </div>
           <table className="table-auto w-full border-primaryvariant1 border-[1px] rounded-[10px] text-left mb-[50px]">
             <thead className='p-[30px] rounded-[10px] text-white bg-primaryvariant2'>

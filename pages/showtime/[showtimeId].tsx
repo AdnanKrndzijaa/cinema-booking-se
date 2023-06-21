@@ -11,8 +11,26 @@ import { useRouter } from 'next/router'
 import DateComponent from '@/components/DateComponent'
 import useShowtimeSeat from '@/hooks/useShowtimeSeat'
 import axios from 'axios';
-import { getSession } from "next-auth/react"
+import { NextPageContext } from "next";
+import { getSession, useSession } from "next-auth/react";
 import useCurrentUser from '@/hooks/useCurrentUser'
+
+export async function getServerSideProps(context: NextPageContext) {
+	const session = await getSession(context);
+  
+	if (!session) {
+	  return {
+		redirect: {
+		  destination: '/auth',
+		  permanent: false,
+		}
+	  }
+	}
+  
+	return {
+	  props: {}
+	}
+  }
 
 const Showtime = () => {
 	const router = useRouter();
@@ -24,6 +42,7 @@ const Showtime = () => {
 
 	const { data: currentUser, error, mutate } = useCurrentUser();
 	const userId = currentUser?.id;
+
 
 
   useEffect(() => {
@@ -243,7 +262,7 @@ const Showtime = () => {
 			setSelectedSeats([]);
 	
 			// Redirect to a specific page, e.g., after successful insertion
-			router.push('/dashboard');
+			router.push('/getTickets');
 		} catch (error) {
 			console.log(error);
 			// Handle error, e.g., show an error message or perform additional error handling

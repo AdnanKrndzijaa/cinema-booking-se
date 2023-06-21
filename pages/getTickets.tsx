@@ -3,8 +3,15 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Button from '@/components/Button'
 import Link from 'next/link'
+import { getSession } from "next-auth/react"
+import { useRouter } from 'next/router';
+import useCurrentUser from '@/hooks/useCurrentUser'
 
 const get_tickets = () => {
+	const router = useRouter();
+	const { data: currentUser } = useCurrentUser();
+	const userId = currentUser?.id;
+
   return (
     <div className="px-[9.5vw] min-h-[100vh]">
         <Navbar/>
@@ -16,12 +23,12 @@ const get_tickets = () => {
             </div> 
             <p className='my-[60px] text-text text-center'>Thank your for your purchase.<br></br>Enjoy your movie</p>
             <div className='flex gap-[16px]'>
-                <Link href="/tickets">
+                <div onClick={() => router.push(`/tickets/${userId}`)}>
                     <Button style="secondary" label="GO TO TICKETS" />
-                </Link>
-                <Link href="/dashboard">
+                </div>
+                <div onClick={() => router.push(`/`)}>
                     <Button style="primary" label="GO TO DASHBOARD" />
-                </Link>
+                </div>
             </div>
             
         </div>
