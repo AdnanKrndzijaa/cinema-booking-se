@@ -204,6 +204,18 @@ const Showtime = () => {
 	}
 	};
 
+	const generateBarcode = () => {
+		const barcodeLength = 16;
+		let barcode = '';
+	  
+		for (let i = 0; i < barcodeLength; i++) {
+		  const randomDigit = Math.floor(Math.random() * 10); // Generate a random digit between 0 and 9
+		  barcode += randomDigit;
+		}
+	  
+		return barcode;
+	  };
+
 	const addSelectedSeats = async () => {
 		try {
 			for (const seat of selectedSeats) {
@@ -219,7 +231,7 @@ const Showtime = () => {
 					showtimeId: showtimeId, // Replace with the actual movie ID
 					dateTime: new Date().toISOString(),
 					seatNumber: seat,
-					barcode: "2312312312312", // Generate a unique barcode using uuidv4()
+					barcode: generateBarcode(), // Generate a unique barcode using uuidv4()
 				};
 	
 				await addTicket(ticketData);
